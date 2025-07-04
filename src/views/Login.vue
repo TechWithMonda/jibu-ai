@@ -178,7 +178,7 @@ const handleLogin = () => {
   // Simulate API call
   setTimeout(() => {
     isLoading.value = false;
-    router.push('/dashboard');
+    router.push('/home');
   }, 1500);
 };
 
