@@ -586,8 +586,15 @@ const testimonials = [
   {
     name: "James Kariuki",
     initials: "JK",
-    school: "Starehe Boys Centre",
-    quote: "The voice assistance feature is a game-changer. I can study while commuting without looking at my phone.",
+    school: "Gudka",
+    quote: "The voice assistance feature is a game-changer. I can study while commuting without looking at my phone.I went from  scoring 50% average on my english to scoring 90% ,i just love this app  ",
+    rating: 5
+  },
+   {
+    name: "Grace Ombogo",
+    initials: "Go",
+    school: "Gudka",
+    quote: "As a primary teacher handling both lower and upper grades, it has helped me teach in a simpler and more understandable way, making it easier to summarize topics and identify key concepts",
     rating: 5
   }
 ];
