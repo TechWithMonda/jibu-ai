@@ -41,7 +41,9 @@
           <a href="#how-it-works" class="text-blue-100 hover:text-white">How It Works</a>
           <a href="#testimonials" class="text-blue-100 hover:text-white">Testimonials</a>
           <a href="#pricing" class="text-blue-100 hover:text-white">Pricing</a>
+          <RouterLink to="/login">
           <button class="bg-white text-blue-700 px-4 py-2 rounded-lg mt-2">Login</button>
+          </RouterLink>
         </div>
       </div>
     </header>
