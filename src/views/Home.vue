@@ -139,9 +139,13 @@
               <h4 class="text-2xl font-bold mb-4">Try It Yourself</h4>
               <p class="mb-6">Upload a sample paper and see Jibu AI in action. No registration required!</p>
               <div class="flex flex-col space-y-4">
+               <router-link to="uploadpaper"  class="flex flex-col space-y-" >
                 <button class="bg-white text-blue-700 font-semibold px-6 py-3 rounded-lg hover:bg-blue-100 transition-all">
                   Upload Paper
                 </button>
+                </router-link>
+                
+
                 <button class="border border-white text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-600 transition-all">
                   View Sample Solutions
                 </button>

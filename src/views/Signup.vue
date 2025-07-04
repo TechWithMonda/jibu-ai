@@ -219,7 +219,7 @@ const handleSignUp = () => {
   // Simulate API call
   setTimeout(() => {
     isLoading.value = false;
-    router.push('/verify-email');
+    router.push('/');
   }, 1500);
 };
 
