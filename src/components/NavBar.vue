@@ -16,12 +16,16 @@
       </nav>
       
       <div class="flex items-center space-x-4">
+        <router-link to="login">
         <button class="hidden md:block bg-transparent border border-blue-300 text-blue-100 px-4 py-2 rounded-lg hover:bg-blue-600 hover:border-blue-600 transition-all duration-300 hover:scale-105">
           Login
         </button>
+        </router-link>
+        <router-link to="signup" >
         <button class="bg-white text-blue-700 px-4 py-2 rounded-lg hover:bg-blue-100 transition-all duration-300 hover:scale-105 shadow-md hover:shadow-lg">
           Sign Up Free
         </button>
+        </router-link>
         <button @click="toggleMobileMenu" class="md:hidden text-white focus:outline-none">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
