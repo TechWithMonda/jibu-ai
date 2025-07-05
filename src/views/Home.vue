@@ -165,19 +165,36 @@
                 </button>
               </div>
             </div>
-            <div class="md:w-1/2 p-8">
-              <div class="border-2 border-dashed border-blue-300 rounded-lg p-6 text-center h-full flex flex-col items-center justify-center">
-                <svg class="w-16 h-16 text-blue-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                </svg>
-                <h5 class="font-bold text-lg mb-2">Drag & Drop Files Here</h5>
-                <p class="text-gray-500 mb-4">or</p>
-                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                  Browse Files
-                </button>
-                <p class="text-xs text-gray-400 mt-4">Supports PDF, JPG, PNG (Max 10MB)</p>
-              </div>
-            </div>
+           
+             <div class="md:w-1/2 p-8">
+               <div class="border-2 border-dashed border-blue-300 rounded-lg p-6 text-center h-full flex flex-col items-center justify-center">
+                 <!-- Camera icon instead of upload icon -->
+                 <svg class="w-16 h-16 text-blue-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                 </svg>
+                 <h5 class="font-bold text-lg mb-2">Scan Document</h5>
+                 <p class="text-gray-500 mb-4">Position your document within the frame</p>
+                 
+                 <!-- Camera preview placeholder -->
+                 <div class="w-full h-48 bg-gray-100 mb-4 flex items-center justify-center rounded-lg overflow-hidden">
+                   <div class="relative w-full h-full">
+                     <!-- This would be where the camera feed appears -->
+                     <div class="absolute inset-0 flex items-center justify-center">
+                       <div class="border-2 border-blue-400 border-dashed w-3/4 h-3/4"></div>
+                     </div>
+                   </div>
+                 </div>
+                 
+                 <router-link to="uploadpaper">
+                   <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                     Capture Scan
+                   </button>
+                 </router-link>
+                 <p class="text-xs text-gray-400 mt-4">Or upload an existing file</p>
+               </div>
+             </div>
+           
           </div>
         </div>
       </div>
