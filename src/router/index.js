@@ -65,6 +65,14 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/Progressanalytics.vue'),
     },
+       {
+      path: '/smartflashcards',
+      name: 'smartflashcards',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/Smartflashcards.vue'),
+    },
     {
       path: '/features',
       name: 'features',

@@ -96,31 +96,33 @@
       </router-link>
 
       <!-- Feature Card 4: Flashcards -->
-      <div 
-        class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
-        @mouseenter="activeFeature = 'flashcards'"
-      >
-        <div class="h-48 bg-gradient-to-br from-yellow-100 to-amber-100 flex items-center justify-center">
-          <div class="flashcard-preview w-40 h-28 bg-white rounded-lg shadow-md transform rotate-2 transition-transform duration-300 hover:rotate-0">
-            <div class="card-front absolute inset-0 bg-blue-50 flex items-center justify-center p-4">
-              <span class="text-center">Photosynthesis Equation</span>
+      <router-link to="smartflashcards">
+          <div
+            class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+            @mouseenter="activeFeature = 'flashcards'"
+          >
+            <div class="h-48 bg-gradient-to-br from-yellow-100 to-amber-100 flex items-center justify-center">
+              <div class="flashcard-preview w-40 h-28 bg-white rounded-lg shadow-md transform rotate-2 transition-transform duration-300 hover:rotate-0">
+                <div class="card-front absolute inset-0 bg-blue-50 flex items-center justify-center p-4">
+                  <span class="text-center">Photosynthesis Equation</span>
+                </div>
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2 flex items-center">
+                <span class="icon-box bg-yellow-100 text-yellow-600 p-2 rounded-lg mr-3">🔖</span>
+                Smart Flashcards
+              </h3>
+              <p class="text-gray-600 mb-4">
+                Spaced repetition system that adapts to your learning pace for maximum retention.
+              </p>
+              <div class="flex flex-wrap gap-2">
+                <span class="feature-tag">Active Recall</span>
+                <span class="feature-tag">Spaced Repetition</span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="p-6">
-          <h3 class="text-xl font-bold mb-2 flex items-center">
-            <span class="icon-box bg-yellow-100 text-yellow-600 p-2 rounded-lg mr-3">🔖</span>
-            Smart Flashcards
-          </h3>
-          <p class="text-gray-600 mb-4">
-            Spaced repetition system that adapts to your learning pace for maximum retention.
-          </p>
-          <div class="flex flex-wrap gap-2">
-            <span class="feature-tag">Active Recall</span>
-            <span class="feature-tag">Spaced Repetition</span>
-          </div>
-        </div>
-      </div>
+      </router-link>
 
       <!-- Feature Card 5: Resource Library -->
       <div 
