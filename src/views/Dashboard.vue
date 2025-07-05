@@ -11,39 +11,52 @@
             <h1 class="text-2xl font-bold text-gray-800">Dashboard</h1>
             <p class="text-gray-600">Welcome back! Here's your overview</p>
           </div>
-          <router-link to="uploadpaper">
-            <button
-              @click="activeTab = 'upload'"
-              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center"
-            >
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-              </svg>
-              Upload Paper
-            </button>
-          </router-link>
-          <router-link to="notes">
-            <button
-              @click="activeTab = 'notes'"
-              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center"
-            >
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-              </svg>
-             My Notes
-            </button>
-          </router-link>
-             <router-link to="timetable">
-            <button
-              @click="activeTab = 'notes'"
-              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center"
-            >
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-              </svg>
-             My TimeTable
-            </button>
-          </router-link>
+         <div class="p-4">
+    <!-- Responsive button container -->
+    <div class="flex flex-wrap gap-3 justify-start sm:justify-between">
+      <!-- Upload Paper -->
+      <router-link to="uploadpaper" class="flex-grow sm:flex-grow-0">
+        <button
+          @click="activeTab = 'upload'"
+          class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center justify-center"
+        >
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+          Upload Paper
+        </button>
+      </router-link>
+
+      <!-- My Notes -->
+      <router-link to="notes" class="flex-grow sm:flex-grow-0">
+        <button
+          @click="activeTab = 'notes'"
+          class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center justify-center"
+        >
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+          My Notes
+        </button>
+      </router-link>
+
+      <!-- My Timetable -->
+      <router-link to="timetable" class="flex-grow sm:flex-grow-0">
+        <button
+          @click="activeTab = 'timetable'"
+          class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center justify-center"
+        >
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+          My Timetable
+        </button>
+      </router-link>
+    </div>
+  </div>
         </div>
 
         <!-- Stats Cards -->
