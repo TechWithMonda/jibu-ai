@@ -57,6 +57,30 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/Timetable.vue'),
     },
+      {
+      path: '/progressanalytics',
+      name: 'progressanalytics',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/Progressanalytics.vue'),
+    },
+    {
+      path: '/features',
+      name: 'features',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/Features.vue'),
+    },
+      {
+      path: '/timer',
+      name: 'timer',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/Timer.vue'),
+    },
          {
       path: '/uploadpaper',
       name: 'uploadpaper',

@@ -20,7 +20,9 @@
                                       <router-link to="/dashboard"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">Dashboard</a></router-link>
 
         <router-link to="/uploadpaper"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">Upload Paper</a></router-link>
-                            <router-link to="/notes"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">My Notes</a></router-link>
+                <router-link to="/features"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">Features</a></router-link>
+                    
+        <router-link to="/notes"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">My Notes</a></router-link>
                                       
                         <router-link to="/timetable"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">My TimeTable</a></router-link>
       </nav>
