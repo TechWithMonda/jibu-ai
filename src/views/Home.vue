@@ -11,6 +11,8 @@
         </div>
         <nav class="hidden md:flex items-center space-x-8">
           <a href="#features" class="text-blue-100 hover:text-white transition-colors duration-300">Features</a>
+                   <router-link to="dashboard"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">Dashboard</a></router-link>
+
           <a href="#how-it-works" class="text-blue-100 hover:text-white transition-colors duration-300">How It Works</a>
           <a href="#testimonials" class="text-blue-100 hover:text-white transition-colors duration-300">Testimonials</a>
           <a href="#pricing" class="text-blue-100 hover:text-white transition-colors duration-300">Pricing</a>
@@ -38,6 +40,8 @@
       <div v-if="mobileMenuOpen" class="md:hidden bg-blue-800 px-6 py-4">
         <div class="flex flex-col space-y-4">
           <a href="#features" class="text-blue-100 hover:text-white">Features</a>
+                   <router-link to="dashboard"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">Dashboard</a></router-link>
+
           <a href="#how-it-works" class="text-blue-100 hover:text-white">How It Works</a>
           <a href="#testimonials" class="text-blue-100 hover:text-white">Testimonials</a>
           <a href="#pricing" class="text-blue-100 hover:text-white">Pricing</a>

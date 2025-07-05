@@ -9,12 +9,12 @@
       </div>
       
       <nav class="hidden md:flex items-center space-x-8">
-        <a href="#features" class="text-blue-100 hover:text-white transition-colors duration-300">Features</a>
-        <a href="#how-it-works" class="text-blue-100 hover:text-white transition-colors duration-300">How It Works</a>
-        <a href="#testimonials" class="text-blue-100 hover:text-white transition-colors duration-300">Testimonials</a>
-        <a href="#pricing" class="text-blue-100 hover:text-white transition-colors duration-300">Pricing</a>
+                              <router-link to="/"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">Home</a></router-link>
+              <router-link to="/uploadpaper"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">Upload Paper</a></router-link>
+                            <router-link to="/notes"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">My Notes</a></router-link>
+                                      
+                        <router-link to="/timetable"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">My TimeTable</a></router-link>
       </nav>
-      
       <div class="flex items-center space-x-4">
         <router-link to="login">
         <button class="hidden md:block bg-transparent border border-blue-300 text-blue-100 px-4 py-2 rounded-lg hover:bg-blue-600 hover:border-blue-600 transition-all duration-300 hover:scale-105">
@@ -37,10 +37,10 @@
     <!-- Mobile menu -->
     <div v-if="mobileMenuOpen" class="md:hidden bg-blue-800 px-6 py-4">
       <div class="flex flex-col space-y-4">
-        <a href="#features" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">Features</a>
-        <a href="#how-it-works" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">How It Works</a>
-        <a href="#testimonials" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">Testimonials</a>
-        <a href="#pricing" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">Pricing</a>
+                      <router-link to="/"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">Home</a></router-link>
+              <router-link to="/uploadpaper"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">Upload Paper</a></router-link>
+                            <router-link to="/notes"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">My Notes</a></router-link>
+                                          <router-link to="/timetable"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">My TimeTable</a></router-link>
         <router-link to="login" >
         <button class="bg-white text-blue-700 px-4 py-2 rounded-lg mt-2">Login</button>
         </router-link>
