@@ -6,6 +6,7 @@ import NavBar from './components/NavBar.vue'
 import Footer from './components/Footer.vue'
 import './plugins/chart'; // Import the char
 
+
 import App from './App.vue'
 import router from './router'
 
