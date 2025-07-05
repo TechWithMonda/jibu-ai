@@ -5,12 +5,21 @@
         <svg class="w-8 h-8 text-blue-200" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
         </svg>
-        <h1 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-200 to-white">Jibu AI</h1>
+<router-link to="/">
+  <button class="cursor-pointer">
+    <h1 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-200 to-white hover:text-white">
+      Jibu AI
+    </h1>
+  </button>
+</router-link>
       </div>
       
       <nav class="hidden md:flex items-center space-x-8">
-                              <router-link to="/"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">Home</a></router-link>
-              <router-link to="/uploadpaper"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">Upload Paper</a></router-link>
+                              
+        <router-link to="/"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">Home</a></router-link>
+                                      <router-link to="/dashboard"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">Dashboard</a></router-link>
+
+        <router-link to="/uploadpaper"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">Upload Paper</a></router-link>
                             <router-link to="/notes"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">My Notes</a></router-link>
                                       
                         <router-link to="/timetable"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">My TimeTable</a></router-link>
@@ -38,6 +47,8 @@
     <div v-if="mobileMenuOpen" class="md:hidden bg-blue-800 px-6 py-4">
       <div class="flex flex-col space-y-4">
                       <router-link to="/"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">Home</a></router-link>
+                                                            <router-link to="/dashboard"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">Dashboard</a></router-link>
+
               <router-link to="/uploadpaper"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">Upload Paper</a></router-link>
                             <router-link to="/notes"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">My Notes</a></router-link>
                                           <router-link to="/timetable"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">My TimeTable</a></router-link>
