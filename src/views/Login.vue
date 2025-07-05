@@ -23,6 +23,13 @@
         <router-link to="/signup" class="font-medium text-blue-600 hover:text-blue-500">
           create a new account
         </router-link>
+          <router-link to="/">
+               <div class="relative flex justify-center text-sm">
+                <span class="px-2 bg-white text-green-500">
+                  Continue Without signing in
+                </span>
+                           </div>
+             </router-link>
       </p>
     </div>
 
