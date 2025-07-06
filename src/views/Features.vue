@@ -156,32 +156,34 @@
       </router-link>
 
       <!-- Feature Card 6: Study Groups -->
-      <div 
-        class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
-        @mouseenter="activeFeature = 'collaboration'"
-      >
-        <div class="h-48 bg-gradient-to-br from-pink-100 to-rose-100 flex items-center justify-center">
-          <div class="avatar-group flex -space-x-2">
-            <div class="avatar">👩🏾</div>
-            <div class="avatar">👨🏼</div>
-            <div class="avatar">👩🏽‍🦱</div>
-            <div class="avatar">🧑🏿</div>
+      <router-link to="studygroups">
+        <div
+          class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+          @mouseenter="activeFeature = 'collaboration'"
+        >
+          <div class="h-48 bg-gradient-to-br from-pink-100 to-rose-100 flex items-center justify-center">
+            <div class="avatar-group flex -space-x-2">
+              <div class="avatar">👩🏾</div>
+              <div class="avatar">👨🏼</div>
+              <div class="avatar">👩🏽‍🦱</div>
+              <div class="avatar">🧑🏿</div>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2 flex items-center">
+              <span class="icon-box bg-pink-100 text-pink-600 p-2 rounded-lg mr-3">👥</span>
+              Study Groups
+            </h3>
+            <p class="text-gray-600 mb-4">
+              Real-time collaboration with shared whiteboards, document editing, and group scheduling.
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="feature-tag">Collaboration</span>
+              <span class="feature-tag">Real-time Sync</span>
+            </div>
           </div>
         </div>
-        <div class="p-6">
-          <h3 class="text-xl font-bold mb-2 flex items-center">
-            <span class="icon-box bg-pink-100 text-pink-600 p-2 rounded-lg mr-3">👥</span>
-            Study Groups
-          </h3>
-          <p class="text-gray-600 mb-4">
-            Real-time collaboration with shared whiteboards, document editing, and group scheduling.
-          </p>
-          <div class="flex flex-wrap gap-2">
-            <span class="feature-tag">Collaboration</span>
-            <span class="feature-tag">Real-time Sync</span>
-          </div>
-        </div>
-      </div>
+      </router-link>
     </div>
 
     <!-- Feature Spotlight (Appears on hover) -->
