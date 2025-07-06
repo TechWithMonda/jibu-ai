@@ -622,6 +622,7 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -633,6 +634,7 @@ export default {
       flashOn: false,
       facingMode: 'environment',
       cameraError: null,
+      stream: null,
       
       // File upload related
       uploadedFile: null,
@@ -651,12 +653,52 @@ export default {
     }
   },
   methods: {
+    // Initialize camera when scanner mode is camera
+    async initializeCamera() {
+      try {
+        // Stop any existing stream
+        if (this.stream) {
+          this.stream.getTracks().forEach(track => track.stop());
+        }
+        
+        // Get camera access
+        this.stream = await navigator.mediaDevices.getUserMedia({
+          video: { 
+            facingMode: this.facingMode,
+            width: { ideal: 1280 },
+            height: { ideal: 720 }
+          },
+          audio: false
+        });
+        
+        // Attach stream to video element
+        this.$refs.cameraPreview.srcObject = this.stream;
+        this.$refs.cameraPreview.play();
+        this.cameraError = null;
+      } catch (error) {
+        console.error('Camera error:', error);
+        this.cameraError = 'Could not access camera. Please check permissions.';
+        // Fallback to upload mode if camera fails
+        this.scannerMode = 'upload';
+      }
+    },
+    
     // Camera methods
     captureDocument() {
+      // Create canvas to capture image
+      const video = this.$refs.cameraPreview;
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      
+      // Draw video frame to canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
       // Simulate flash effect
-      const flash = document.createElement('div')
-      flash.className = 'absolute inset-0 bg-white opacity-0'
-      this.$refs.cameraPreview.parentNode.appendChild(flash)
+      const flash = document.createElement('div');
+      flash.className = 'absolute inset-0 bg-white opacity-0';
+      this.$refs.cameraPreview.parentNode.appendChild(flash);
       
       // Animate flash
       flash.animate([
@@ -667,123 +709,127 @@ export default {
         duration: 300,
         easing: 'ease-out'
       }).onfinish = () => {
-        flash.remove()
-      }
-      
-      // For demo purposes, we'll just use a placeholder image
-      this.capturedImage = 'https://via.placeholder.com/800x600/FFFFFF/000000?text=Captured+Document'
+        flash.remove();
+        
+        // Set captured image
+        this.capturedImage = canvas.toDataURL('image/jpeg', 0.8);
+      };
     },
     
     retakePhoto() {
-      this.capturedImage = null
+      this.capturedImage = null;
     },
     
     toggleFlash() {
-      this.flashOn = !this.flashOn
+      this.flashOn = !this.flashOn;
+      // Note: Actual flash control requires specific device APIs
+      // This is just for UI indication
     },
     
-    toggleCamera() {
-      this.facingMode = this.facingMode === 'user' ? 'environment' : 'user'
+    async toggleCamera() {
+      this.facingMode = this.facingMode === 'user' ? 'environment' : 'user';
+      await this.initializeCamera();
     },
     
     // File upload methods
     openFilePicker() {
-      this.$refs.fileInput.click()
+      this.$refs.fileInput.click();
     },
     
     handleFileSelect(e) {
-      const file = e.target.files[0]
-      this.validateAndSetFile(file)
+      const file = e.target.files[0];
+      this.validateAndSetFile(file);
     },
     
     dragover() {
-      this.isDragging = true
+      this.isDragging = true;
     },
     
     dragleave() {
-      this.isDragging = false
+      this.isDragging = false;
     },
     
     drop(e) {
-      this.isDragging = false
-      const file = e.dataTransfer.files[0]
-      this.validateAndSetFile(file)
+      this.isDragging = false;
+      const file = e.dataTransfer.files[0];
+      this.validateAndSetFile(file);
     },
     
     validateAndSetFile(file) {
-      if (!file) return
+      if (!file) return;
       
       // Validate file size (10MB max)
       if (file.size > 10 * 1024 * 1024) {
-        alert('File size exceeds 10MB limit. Please choose a smaller file.')
-        return
+        alert('File size exceeds 10MB limit. Please choose a smaller file.');
+        return;
       }
       
       // Validate file type
-      const validTypes = ['application/pdf', 'image/jpeg', 'image/png']
+      const validTypes = ['application/pdf', 'image/jpeg', 'image/png'];
       if (!validTypes.includes(file.type) && !file.name.match(/\.(pdf|jpe?g|png)$/i)) {
-        alert('Please upload a PDF, JPG, or PNG file.')
-        return
+        alert('Please upload a PDF, JPG, or PNG file.');
+        return;
       }
       
-      this.uploadedFile = file
-      this.uploadSuccess = false
+      this.uploadedFile = file;
+      this.uploadSuccess = false;
       
       // Create preview for images
       if (this.isImageFile(file)) {
-        const reader = new FileReader()
+        const reader = new FileReader();
         reader.onload = (e) => {
-          this.filePreview = e.target.result
-        }
-        reader.readAsDataURL(file)
+          this.filePreview = e.target.result;
+        };
+        reader.readAsDataURL(file);
       }
     },
     
     isImageFile(file) {
-      return file.type.match('image.*') || file.name.match(/\.(jpe?g|png)$/i)
+      return file.type.match('image.*') || file.name.match(/\.(jpe?g|png)$/i);
     },
     
     removeFile() {
-      this.uploadedFile = null
-      this.filePreview = null
-      this.$refs.fileInput.value = ''
+      this.uploadedFile = null;
+      this.filePreview = null;
+      this.$refs.fileInput.value = '';
     },
     
     formatFileSize(bytes) {
-  if (bytes === 0) return '0 Bytes'
-  const k = 1024
-  const sizes = ['Bytes', 'KB', 'MB', 'GB']
-  const i = Math.floor(Math.log(bytes) / Math.log(k))
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
-},
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    },
+    
     getFileExtension(filename) {
-      return filename.split('.').pop().toUpperCase()
+      return filename.split('.').pop().toUpperCase();
     },
     
     // Analysis methods
     analyzeDocument() {
-      this.processing = true
-      this.progress = 0
-      this.processingTime = 0
+      this.processing = true;
+      this.progress = 0;
+      this.processingTime = 0;
       
       // Simulate processing
       this.progressInterval = setInterval(() => {
-        this.progress += Math.floor(Math.random() * 10) + 5
-        this.processingTime += 0.5
+        this.progress += Math.floor(Math.random() * 10) + 5;
+        this.processingTime += 0.5;
         
         if (this.progress >= 100) {
-          clearInterval(this.progressInterval)
-          this.progress = 100
+          clearInterval(this.progressInterval);
+          this.progress = 100;
           
           // Generate results based on selected model
-          this.generateResults()
+          this.generateResults();
           
           setTimeout(() => {
-            this.processing = false
-            this.showResults = true
-          }, 500)
+            this.processing = false;
+            this.showResults = true;
+          }, 500);
         }
-      }, 500)
+      }, 500);
     },
     
     generateResults() {
@@ -798,7 +844,7 @@ export default {
             <h5 class="font-medium mb-2">Question 2 Solution:</h5>
             <p>Answer: y = 12</p>
           </div>
-        `
+        `;
       } 
       else if (this.selectedModel === 'standard') {
         this.analysisResults = `
@@ -818,7 +864,7 @@ export default {
             <p><strong>Step 2:</strong> Plug in values: (3 × 4)/2 = 6</p>
             <p class="mt-2"><strong>Answer:</strong> 6cm²</p>
           </div>
-        `
+        `;
       }
       else {
         this.analysisResults = `
@@ -870,28 +916,51 @@ export default {
             <p>2. Review Pythagorean triples for quick geometry solutions</p>
             <p>3. Consider graphing problems to visualize solutions</p>
           </div>
-        `
+        `;
       }
     },
     
     startNewScan() {
-      this.showResults = false
-      this.capturedImage = null
-      this.uploadedFile = null
-      this.filePreview = null
-      this.progress = 0
-      this.processingTime = 0
-      this.$refs.fileInput.value = ''
-      this.scannerMode = 'camera'
+      this.showResults = false;
+      this.capturedImage = null;
+      this.uploadedFile = null;
+      this.filePreview = null;
+      this.progress = 0;
+      this.processingTime = 0;
+      this.$refs.fileInput.value = '';
+      this.scannerMode = 'camera';
+    }
+  },
+  watch: {
+    scannerMode(newVal) {
+      if (newVal === 'camera') {
+        this.$nextTick(() => {
+          this.initializeCamera();
+        });
+      } else if (this.stream) {
+        // Clean up camera when switching away from camera mode
+        this.stream.getTracks().forEach(track => track.stop());
+        this.stream = null;
+      }
+    }
+  },
+  mounted() {
+    if (this.scannerMode === 'camera') {
+      this.initializeCamera();
     }
   },
   beforeUnmount() {
     if (this.progressInterval) {
-      clearInterval(this.progressInterval)
+      clearInterval(this.progressInterval);
+    }
+    
+    if (this.stream) {
+      this.stream.getTracks().forEach(track => track.stop());
     }
   }
 }
 </script>
+
 
 <style>
 /* Animation for camera flash */
