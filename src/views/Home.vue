@@ -68,7 +68,7 @@
       <div class="container mx-auto px-6 text-center relative z-10">
         <div class="max-w-4xl mx-auto">
           <h2 class="text-4xl md:text-5xl font-bold mb-6 leading-tight animate-fade-in">
-            Your AI-Powered Exam Assistant for <span class="text-yellow-300">KCSE & KCPE</span>
+            Your AI-Powered Exam Assistant for <span class="text-yellow-300">studying </span>
           </h2>
           <p class="text-xl md:text-2xl mb-8 text-blue-100 leading-relaxed animate-fade-in delay-100">
             Upload past papers, get instant solutions with step-by-step explanations, and learn in Swahili or English. 
@@ -129,7 +129,7 @@
               <span class="text-2xl font-bold text-blue-700">1</span>
             </div>
             <h4 class="text-xl font-bold mb-4 text-center">Upload Your Paper</h4>
-            <p class="text-gray-600 text-center">Scan or upload a PDF of any KCSE/KCPE past paper or assignment</p>
+            <p class="text-gray-600 text-center">Scan or upload a PDF of any  past paper or assignment</p>
           </div>
           <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 hover:-translate-y-2">
             <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6 mx-auto">
@@ -705,7 +705,8 @@
               </svg>
               <h4 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-white">Jibu AI</h4>
             </div>
-            <p class="text-blue-200 mb-4">Your AI-powered exam assistant for KCSE & KCPE success.</p>
+
+            <p class="text-blue-200 mb-4" >Your AI-powered exam assistant for success. </p>
             <div class="flex space-x-4">
               <a href="#" class="text-blue-300 hover:text-white transition-colors">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -850,7 +851,7 @@ const testimonials = [
 const faqs = [
   {
     question: "What subjects does Jibu AI cover?",
-    answer: "Jibu AI currently covers all KCSE and KCPE subjects including Mathematics, English, Kiswahili, Sciences (Physics, Chemistry, Biology), Humanities (History, Geography, CRE), and Business subjects (Business Studies, Accounting)."
+    answer: "Jibu AI currently covers all  subjects including Mathematics, English, Kiswahili, Sciences (Physics, Chemistry, Biology), Humanities (History, Geography, CRE), and Business subjects (Business Studies, Accounting)."
   },
   {
     question: "How accurate are the solutions provided?",
