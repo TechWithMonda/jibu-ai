@@ -13,31 +13,33 @@
     <!-- Features Grid -->
     <div class="features-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <!-- Feature Card 1: AI Recommendations -->
-      <div 
-        class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
-        @mouseenter="activeFeature = 'ai'"
-      >
-        <div class="h-48 bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center">
-          <div class="ai-chip animate-pulse flex items-center p-4 bg-white rounded-full shadow">
-            <span class="text-2xl mr-2">🤖</span>
-            <span class="font-mono text-sm">Analyzing...</span>
+      <router-link to="aistudy">
+        <div
+          class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+          @mouseenter="activeFeature = 'ai'"
+        >
+          <div class="h-48 bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center">
+            <div class="ai-chip animate-pulse flex items-center p-4 bg-white rounded-full shadow">
+              <span class="text-2xl mr-2">🤖</span>
+              <span class="font-mono text-sm">Analyzing...</span>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2 flex items-center">
+              <span class="icon-box bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">✨</span>
+              AI Study Recommendations
+            </h3>
+            <p class="text-gray-600 mb-4">
+              Get personalized schedule suggestions based on your courses, deadlines,
+              and historical performance data.
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="feature-tag">Smart Scheduling</span>
+              <span class="feature-tag">Performance Analysis</span>
+            </div>
           </div>
         </div>
-        <div class="p-6">
-          <h3 class="text-xl font-bold mb-2 flex items-center">
-            <span class="icon-box bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">✨</span>
-            AI Study Recommendations
-          </h3>
-          <p class="text-gray-600 mb-4">
-            Get personalized schedule suggestions based on your courses, deadlines, 
-            and historical performance data.
-          </p>
-          <div class="flex flex-wrap gap-2">
-            <span class="feature-tag">Smart Scheduling</span>
-            <span class="feature-tag">Performance Analysis</span>
-          </div>
-        </div>
-      </div>
+      </router-link>
 
       <!-- Feature Card 2: Pomodoro Timer -->
       <router-link to="timer">
@@ -125,31 +127,33 @@
       </router-link>
 
       <!-- Feature Card 5: Resource Library -->
-      <div 
-        class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
-        @mouseenter="activeFeature = 'resources'"
-      >
-        <div class="h-48 bg-gradient-to-br from-indigo-100 to-violet-100 flex items-center justify-center">
-          <div class="file-stack">
-            <div class="file-icon">📄</div>
-            <div class="file-icon">🎥</div>
-            <div class="file-icon">🔗</div>
+      <router-link to="resources">
+        <div
+          class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+          @mouseenter="activeFeature = 'resources'"
+        >
+          <div class="h-48 bg-gradient-to-br from-indigo-100 to-violet-100 flex items-center justify-center">
+            <div class="file-stack">
+              <div class="file-icon">📄</div>
+              <div class="file-icon">🎥</div>
+              <div class="file-icon">🔗</div>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2 flex items-center">
+              <span class="icon-box bg-indigo-100 text-indigo-600 p-2 rounded-lg mr-3">📚</span>
+              Resource Library
+            </h3>
+            <p class="text-gray-600 mb-4">
+              Organized repository for all your study materials - PDFs, videos, links, and more.
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="feature-tag">Cloud Storage</span>
+              <span class="feature-tag">Organization</span>
+            </div>
           </div>
         </div>
-        <div class="p-6">
-          <h3 class="text-xl font-bold mb-2 flex items-center">
-            <span class="icon-box bg-indigo-100 text-indigo-600 p-2 rounded-lg mr-3">📚</span>
-            Resource Library
-          </h3>
-          <p class="text-gray-600 mb-4">
-            Organized repository for all your study materials - PDFs, videos, links, and more.
-          </p>
-          <div class="flex flex-wrap gap-2">
-            <span class="feature-tag">Cloud Storage</span>
-            <span class="feature-tag">Organization</span>
-          </div>
-        </div>
-      </div>
+      </router-link>
 
       <!-- Feature Card 6: Study Groups -->
       <div 
