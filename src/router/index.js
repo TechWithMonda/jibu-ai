@@ -70,7 +70,7 @@ const router = createRouter({
     },
     {
       path: '/tutor',
-      name: 'Aitutor',
+      name: 'tutor',
       component: () => import('../views/Tutor.vue')
     },
     {

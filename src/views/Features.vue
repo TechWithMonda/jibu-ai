@@ -156,7 +156,7 @@
       </router-link>
 
       <!-- Feature Card 6: Study Groups -->
-      <router-link to="Aitutor">
+      <router-link to="tutor">
        <div
   class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
   @mouseenter="activeFeature = 'aiTutor'"
