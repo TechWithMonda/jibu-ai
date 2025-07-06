@@ -1,0 +1,6 @@
+{
+  "icon": {
+    "sourcePath": "resources/logo.png",
+    "outputPath": "resources/generated"
+  }
+}

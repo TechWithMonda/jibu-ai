@@ -12,13 +12,16 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 onMounted(() => {
-  const backHandler = App.addListener('backButton', () => {
+  const backHandler = App.addListener('backButton', async () => {
     if (router.currentRoute.value.fullPath !== '/') {
       // Go back if not on home
       router.back()
     } else {
-      // Exit the app if already on home page
-      App.exitApp()
+      // Ask the user before exiting the app
+      const confirmed = window.confirm('Are you sure you want to exit the app?')
+      if (confirmed) {
+        App.exitApp()
+      }
     }
   })
 
@@ -26,9 +29,4 @@ onMounted(() => {
     backHandler.remove()
   })
 })
-// No imports needed since this is minimal
 </script>
-
-<style>
-/* Optional: global styles */
-</style>
