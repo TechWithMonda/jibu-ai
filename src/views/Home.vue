@@ -248,6 +248,224 @@
       </div>
     </section>
 
+
+  <!-- Supercharge Learning Section -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h3 class="text-3xl font-bold mb-4">Supercharge Your Learning</h3>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          Discover 15 powerful features designed to optimize your study sessions, boost retention, and maximize academic performance.
+        </p>
+      </div>
+
+      <!-- Interactive Feature Grid -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Feature 1: AI Study Recommendations -->
+        <router-link to="aistudy">
+          <div
+            @mouseenter="hoveredFeature = 1"
+            @mouseleave="hoveredFeature = null"
+            class="bg-blue-50 rounded-xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer"
+            :class="{'ring-2 ring-blue-500': hoveredFeature === 1}"
+          >
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                <span class="text-2xl">✨</span>
+              </div>
+              <h4 class="text-xl font-bold">AI Study Recommendations</h4>
+            </div>
+            <p class="text-gray-600 mb-4">Get personalized schedule suggestions based on your courses, deadlines, and performance.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Smart Scheduling</span>
+              <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Performance Analysis</span>
+            </div>
+          </div>
+        </router-link>
+
+        <!-- Feature 2: Focus Timer -->
+        <router-link to="timer">
+          <div
+            @mouseenter="hoveredFeature = 2"
+            @mouseleave="hoveredFeature = null"
+            class="bg-blue-50 rounded-xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer"
+            :class="{'ring-2 ring-blue-500': hoveredFeature === 2}"
+          >
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                <span class="text-2xl">⏱️</span>
+              </div>
+              <h4 class="text-xl font-bold">Focus Timer</h4>
+            </div>
+            <p class="text-gray-600 mb-4">Built-in Pomodoro timer with customizable work/break intervals and session tracking.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Productivity</span>
+              <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Time Management</span>
+            </div>
+          </div>
+        </router-link>
+
+        <!-- Feature 3: Progress Analytics -->
+        <router-link to="progressanalytics">
+          <div
+            @mouseenter="hoveredFeature = 3"
+            @mouseleave="hoveredFeature = null"
+            class="bg-blue-50 rounded-xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer"
+            :class="{'ring-2 ring-blue-500': hoveredFeature === 3}"
+          >
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                <span class="text-2xl">📈</span>
+              </div>
+              <h4 class="text-xl font-bold">Progress Analytics</h4>
+            </div>
+            <p class="text-gray-600 mb-4">Visualize your study patterns with interactive charts and actionable insights.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Data Visualization</span>
+              <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Performance Tracking</span>
+            </div>
+          </div>
+        </router-link>
+
+        <!-- Feature 4: Smart Flashcards -->
+        <router-link to="smartflashcards">
+          <div
+            @mouseenter="hoveredFeature = 4"
+            @mouseleave="hoveredFeature = null"
+            class="bg-blue-50 rounded-xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer"
+            :class="{'ring-2 ring-blue-500': hoveredFeature === 4}"
+          >
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                <span class="text-2xl">🔖</span>
+              </div>
+              <h4 class="text-xl font-bold">Smart Flashcards</h4>
+            </div>
+            <p class="text-gray-600 mb-4">Spaced repetition system that adapts to your learning pace for maximum retention.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Active Recall</span>
+              <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Spaced Repetition</span>
+            </div>
+          </div>
+        </router-link>
+
+        <!-- Feature 5: Resource Library -->
+        <router-link to="resources">
+          <div
+            @mouseenter="hoveredFeature = 5"
+            @mouseleave="hoveredFeature = null"
+            class="bg-blue-50 rounded-xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer"
+            :class="{'ring-2 ring-blue-500': hoveredFeature === 5}"
+          >
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                <span class="text-2xl">📚</span>
+              </div>
+              <h4 class="text-xl font-bold">Resource Library</h4>
+            </div>
+            <p class="text-gray-600 mb-4">Organized repository for all your study materials - PDFs, videos, links, and more.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Cloud Storage</span>
+              <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Organization</span>
+            </div>
+          </div>
+        </router-link>
+
+        <!-- Feature 6: Study Groups -->
+        <router-link to="studygroups">
+          <div
+            @mouseenter="hoveredFeature = 6"
+            @mouseleave="hoveredFeature = null"
+            class="bg-blue-50 rounded-xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer"
+            :class="{'ring-2 ring-blue-500': hoveredFeature === 6}"
+          >
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                <span class="text-2xl">👥</span>
+              </div>
+              <h4 class="text-xl font-bold">Study Groups</h4>
+            </div>
+            <p class="text-gray-600 mb-4">Real-time collaboration with shared whiteboards, document editing, and group scheduling.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Collaboration</span>
+              <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Real-time Sync</span>
+            </div>
+          </div>
+        </router-link>
+      </div>
+
+      <!-- Advanced Analytics Showcase -->
+      <div class="mt-16 bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl overflow-hidden shadow-2xl">
+        <div class="md:flex">
+          <div class="md:w-1/2 p-10 text-white">
+            <h4 class="text-2xl font-bold mb-4">Advanced Progress Analytics</h4>
+            <p class="mb-6 text-blue-100">Data-driven insights into your study habits with beautiful visualizations to identify strengths and improvement areas.</p>
+            
+            <div class="mb-6">
+              <h5 class="font-bold mb-3">Key Benefits</h5>
+              <ul class="space-y-2">
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Hour tracking by subject</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Performance trend analysis</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Comparative benchmarks</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Custom report generation</span>
+                </li>
+              </ul>
+            </div>
+            
+            <button class="bg-yellow-400 text-blue-900 font-bold px-6 py-3 rounded-lg hover:bg-yellow-300 transition-colors">
+              Try Analytics Dashboard
+            </button>
+          </div>
+          
+          <div class="md:w-1/2 bg-white p-8 flex items-center justify-center">
+            <div class="relative w-full h-full">
+              <!-- Interactive Chart Placeholder -->
+              <div class="bg-gray-100 rounded-lg p-4 h-64 flex items-center justify-center">
+                <div class="text-center">
+                  <div class="mb-2 text-gray-500">Interactive Performance Chart</div>
+                  <div class="text-xs text-gray-400 italic">(Visualization appears here)</div>
+                </div>
+              </div>
+              
+              <!-- Code snippet overlay -->
+              <div class="absolute bottom-4 left-4 bg-gray-800 text-blue-300 p-3 rounded-lg text-xs font-mono opacity-90">
+                <div>const chart = new Chart(ctx, {{ '{' }}</div>
+                <div class="ml-4">type: 'radar',</div>
+                <div class="ml-4">data: {{ '{' }}</div>
+                <div class="ml-8">labels: subjects,</div>
+                <div class="ml-8">datasets: [{{ '{' }}</div>
+                <div class="ml-12">label: 'Your Performance',</div>
+                <div class="ml-12">data: scores,</div>
+                <div class="ml-12">backgroundColor: 'rgba(54, 162, 235, 0.2)'</div>
+                <div class="ml-8">}]</div>
+                <div class="ml-4">}</div>
+                <div>});</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
     <!-- Testimonials Section -->
     <section id="testimonials" class="py-20 bg-white">
       <div class="container mx-auto px-6">
@@ -548,6 +766,7 @@
 
 <script setup>
 import { ref } from 'vue';
+const hoveredFeature = ref(null);
 
 const mobileMenuOpen = ref(false);
 const activeTab = ref(0);
@@ -691,4 +910,13 @@ const faqs = [
     transform: translateY(-10px);
   }
 }
+.feature-card {
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
 </style>
