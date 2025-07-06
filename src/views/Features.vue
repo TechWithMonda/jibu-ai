@@ -156,33 +156,51 @@
       </router-link>
 
       <!-- Feature Card 6: Study Groups -->
-      <router-link to="studygroups">
-        <div
-          class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
-          @mouseenter="activeFeature = 'collaboration'"
-        >
-          <div class="h-48 bg-gradient-to-br from-pink-100 to-rose-100 flex items-center justify-center">
-            <div class="avatar-group flex -space-x-2">
-              <div class="avatar">👩🏾</div>
-              <div class="avatar">👨🏼</div>
-              <div class="avatar">👩🏽‍🦱</div>
-              <div class="avatar">🧑🏿</div>
-            </div>
-          </div>
-          <div class="p-6">
-            <h3 class="text-xl font-bold mb-2 flex items-center">
-              <span class="icon-box bg-pink-100 text-pink-600 p-2 rounded-lg mr-3">👥</span>
-              Study Groups
-            </h3>
-            <p class="text-gray-600 mb-4">
-              Real-time collaboration with shared whiteboards, document editing, and group scheduling.
-            </p>
-            <div class="flex flex-wrap gap-2">
-              <span class="feature-tag">Collaboration</span>
-              <span class="feature-tag">Real-time Sync</span>
-            </div>
-          </div>
+      <router-link to="Aitutor">
+       <div
+  class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+  @mouseenter="activeFeature = 'aiTutor'"
+>
+  <div class="h-48 bg-gradient-to-br from-indigo-100 to-blue-100 flex items-center justify-center">
+    <div class="ai-tutor-visual flex flex-col items-center">
+      <div class="relative mb-2">
+        <div class="w-20 h-20 rounded-full bg-indigo-200 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+          </svg>
         </div>
+        <div class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 border-2 border-white flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+          </svg>
+        </div>
+      </div>
+      <div class="typing-indicator flex space-x-1">
+        <div class="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style="animation-delay: 0ms"></div>
+        <div class="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style="animation-delay: 150ms"></div>
+        <div class="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style="animation-delay: 300ms"></div>
+      </div>
+    </div>
+  </div>
+  <div class="p-6">
+    <h3 class="text-xl font-bold mb-2 flex items-center">
+      <span class="icon-box bg-indigo-100 text-indigo-600 p-2 rounded-lg mr-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        </svg>
+      </span>
+      AI Tutor
+    </h3>
+    <p class="text-gray-600 mb-4">
+      24/7 personalized tutoring with adaptive explanations, instant feedback, and step-by-step problem solving.
+    </p>
+    <div class="flex flex-wrap gap-2">
+      <span class="feature-tag bg-indigo-100 text-indigo-800">Instant Help</span>
+      <span class="feature-tag bg-indigo-100 text-indigo-800">Adaptive Learning</span>
+      <span class="feature-tag bg-indigo-100 text-indigo-800">Multisubject</span>
+    </div>
+  </div>
+</div>
       </router-link>
     </div>
 
