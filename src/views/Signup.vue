@@ -225,7 +225,7 @@ const handleSignUp = async () => {
   isLoading.value = true;
 
   try {
-    const response = await fetch("http://127.0.0.1:8000/api/register/", {
+    const response = await fetch("https://9ccd-154-159-238-97.ngrok-free.app/api/login/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
