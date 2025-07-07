@@ -219,16 +219,43 @@ const passwordsMatch = computed(() => {
   return password.value === confirmPassword.value;
 });
 
-const handleSignUp = () => {
+const handleSignUp = async () => {
   if (!passwordsMatch.value || password.value.length < 8 || !acceptedTerms.value) return;
-  
+
   isLoading.value = true;
-  // Simulate API call
-  setTimeout(() => {
+
+  try {
+    const response = await fetch("http://127.0.0.1:8000/api/register/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        full_name: fullName.value,
+        email: email.value,
+        password: password.value,
+        confirm_password: confirmPassword.value,
+        terms_agreed: acceptedTerms.value,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      alert("Error: " + JSON.stringify(errorData));
+      isLoading.value = false;
+      return;
+    }
+
+    // Success!
+    alert("Account created successfully! Please log in.");
+    router.push("/login");
+  } catch (error) {
+    alert("Network error: " + error.message);
+  } finally {
     isLoading.value = false;
-    router.push('/');
-  }, 1500);
+  }
 };
+
 
 const signUpWithGoogle = () => {
   // Implement Google OAuth

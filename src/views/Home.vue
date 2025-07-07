@@ -1,65 +1,7 @@
 <template>
   <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 text-gray-800 font-sans">
     <!-- Header with sticky navigation -->
-    <header class="sticky top-0 z-50 bg-blue-700 text-white shadow-lg transition-all duration-300 hover:shadow-xl">
-      <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-        <div class="flex items-center space-x-2">
-          <svg class="w-8 h-8 text-blue-200" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-          </svg>
-<router-link to="/">
-  <button class="cursor-pointer">
-    <h1 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-200 to-white hover:text-white">
-      Jibu AI
-    </h1>
-  </button>
-</router-link>
-        </div>
-        <nav class="hidden md:flex items-center space-x-8">
-          <a href="#features" class="text-blue-100 hover:text-white transition-colors duration-300">feature</a>
-                   <router-link to="dashboard"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">Dashboard</a></router-link>
-                          <router-link to="/features"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">Tools</a></router-link>
-
-          <a href="#how-it-works" class="text-blue-100 hover:text-white transition-colors duration-300">How It Works</a>
-          <a href="#testimonials" class="text-blue-100 hover:text-white transition-colors duration-300">Testimonials</a>
-          <a href="#pricing" class="text-blue-100 hover:text-white transition-colors duration-300">Pricing</a>
-        </nav>
-        <div class="flex items-center space-x-4">
-     <RouterLink to="/login">
-  <button class="hidden md:block bg-transparent border border-blue-300 text-blue-100 px-4 py-2 rounded-lg hover:bg-blue-600 hover:border-blue-600 transition-all duration-300 hover:scale-105">
-    Login
-  </button>
-</RouterLink>
-<RouterLink to="/signup">
-          <button class="bg-white text-blue-700 px-4 py-2 rounded-lg hover:bg-blue-100 transition-all duration-300 hover:scale-105 shadow-md hover:shadow-lg">
-            Sign Up Free
-          </button>
-          </RouterLink>
-          <button @click="toggleMobileMenu" class="md:hidden text-white focus:outline-none">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-          </button>
-        </div>
-      </div>
-      
-      <!-- Mobile menu -->
-      <div v-if="mobileMenuOpen" class="md:hidden bg-blue-800 px-6 py-4">
-        <div class="flex flex-col space-y-4">
-          <a href="#features" class="text-blue-100 hover:text-white">Features</a>
-                   <router-link to="dashboard"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">Dashboard</a></router-link>
-                <router-link to="/features"><a href="" class="text-blue-100 hover:text-white" @click="toggleMobileMenu">Tools</a></router-link>
-
-          <a href="#how-it-works" class="text-blue-100 hover:text-white">How It Works</a>
-          <a href="#testimonials" class="text-blue-100 hover:text-white">Testimonials</a>
-          <a href="#pricing" class="text-blue-100 hover:text-white">Pricing</a>
-          <RouterLink to="/login">
-          <button class="bg-white text-blue-700 px-4 py-2 rounded-lg mt-2">Login</button>
-          </RouterLink>
-        </div>
-      </div>
-    </header>
-
+    <NavBar/>
     <!-- Hero Section with animated gradient -->
     <section class="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white py-24 overflow-hidden">
       <div class="absolute inset-0 opacity-10">
@@ -129,7 +71,7 @@
               <span class="text-2xl font-bold text-blue-700">1</span>
             </div>
             <h4 class="text-xl font-bold mb-4 text-center">Upload Your Paper</h4>
-            <p class="text-gray-600 text-center">Scan or upload a PDF of any  past paper or assignment</p>
+            <p class="text-gray-600 text-center">Scan or upload a PDF of any past paper or assignment</p>
           </div>
           <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 hover:-translate-y-2">
             <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6 mx-auto">
@@ -153,48 +95,46 @@
               <h4 class="text-2xl font-bold mb-4">Try It Yourself</h4>
               <p class="mb-6">Upload a sample paper and see Jibu AI in action. No registration required!</p>
               <div class="flex flex-col space-y-4">
-               <router-link to="uploadpaper"  class="flex flex-col space-y-" >
-                <button class="bg-white text-blue-700 font-semibold px-6 py-3 rounded-lg hover:bg-blue-100 transition-all">
-                  Upload Paper
-                </button>
+                <router-link to="/uploadpaper" class="flex flex-col space-y-">
+                  <button class="bg-white text-blue-700 font-semibold px-6 py-3 rounded-lg hover:bg-blue-100 transition-all">
+                    Upload Paper
+                  </button>
                 </router-link>
                 
-
                 <button class="border border-white text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-600 transition-all">
                   View Sample Solutions
                 </button>
               </div>
             </div>
            
-             <div class="md:w-1/2 p-8">
-               <div class="border-2 border-dashed border-blue-300 rounded-lg p-6 text-center h-full flex flex-col items-center justify-center">
-                 <!-- Camera icon instead of upload icon -->
-                 <svg class="w-16 h-16 text-blue-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
-                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                 </svg>
-                 <h5 class="font-bold text-lg mb-2">Scan Document</h5>
-                 <p class="text-gray-500 mb-4">Position your document within the frame</p>
-                 
-                 <!-- Camera preview placeholder -->
-                 <div class="w-full h-48 bg-gray-100 mb-4 flex items-center justify-center rounded-lg overflow-hidden">
-                   <div class="relative w-full h-full">
-                     <!-- This would be where the camera feed appears -->
-                     <div class="absolute inset-0 flex items-center justify-center">
-                       <div class="border-2 border-blue-400 border-dashed w-3/4 h-3/4"></div>
-                     </div>
-                   </div>
-                 </div>
-                 
-                 <router-link to="uploadpaper">
-                   <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                     Capture Scan
-                   </button>
-                 </router-link>
-                 <p class="text-xs text-gray-400 mt-4">Or upload an existing file</p>
-               </div>
-             </div>
-           
+            <div class="md:w-1/2 p-8">
+              <div class="border-2 border-dashed border-blue-300 rounded-lg p-6 text-center h-full flex flex-col items-center justify-center">
+                <!-- Camera icon instead of upload icon -->
+                <svg class="w-16 h-16 text-blue-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                <h5 class="font-bold text-lg mb-2">Scan Document</h5>
+                <p class="text-gray-500 mb-4">Position your document within the frame</p>
+                
+                <!-- Camera preview placeholder -->
+                <div class="w-full h-48 bg-gray-100 mb-4 flex items-center justify-center rounded-lg overflow-hidden">
+                  <div class="relative w-full h-full">
+                    <!-- This would be where the camera feed appears -->
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <div class="border-2 border-blue-400 border-dashed w-3/4 h-3/4"></div>
+                    </div>
+                  </div>
+                </div>
+                
+                <router-link to="/uploadpaper">
+                  <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                    Capture Scan
+                  </button>
+                </router-link>
+                <p class="text-xs text-gray-400 mt-4">Or upload an existing file</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -248,250 +188,250 @@
       </div>
     </section>
 
-
-  <!-- Supercharge Learning Section -->
-  <section class="py-20 bg-white">
-    <div class="container mx-auto px-6">
-      <div class="text-center mb-16">
-        <h3 class="text-3xl font-bold mb-4">Supercharge Your Learning</h3>
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-          Discover 15 powerful features designed to optimize your study sessions, boost retention, and maximize academic performance.
-        </p>
-      </div>
-
-      <!-- Interactive Feature Grid -->
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Feature 1: AI Study Recommendations -->
-        <router-link to="aistudy">
-          <div
-            @mouseenter="hoveredFeature = 1"
-            @mouseleave="hoveredFeature = null"
-            class="bg-blue-50 rounded-xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer"
-            :class="{'ring-2 ring-blue-500': hoveredFeature === 1}"
-          >
-            <div class="flex items-center mb-4">
-              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
-                <span class="text-2xl">✨</span>
-              </div>
-              <h4 class="text-xl font-bold">AI Study Recommendations</h4>
-            </div>
-            <p class="text-gray-600 mb-4">Get personalized schedule suggestions based on your courses, deadlines, and performance.</p>
-            <div class="flex flex-wrap gap-2">
-              <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Smart Scheduling</span>
-              <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Performance Analysis</span>
-            </div>
-          </div>
-        </router-link>
-
-        <!-- Feature 2: Focus Timer -->
-        <router-link to="timer">
-          <div
-            @mouseenter="hoveredFeature = 2"
-            @mouseleave="hoveredFeature = null"
-            class="bg-blue-50 rounded-xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer"
-            :class="{'ring-2 ring-blue-500': hoveredFeature === 2}"
-          >
-            <div class="flex items-center mb-4">
-              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
-                <span class="text-2xl">⏱️</span>
-              </div>
-              <h4 class="text-xl font-bold">Focus Timer</h4>
-            </div>
-            <p class="text-gray-600 mb-4">Built-in Pomodoro timer with customizable work/break intervals and session tracking.</p>
-            <div class="flex flex-wrap gap-2">
-              <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Productivity</span>
-              <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Time Management</span>
-            </div>
-          </div>
-        </router-link>
-
-        <!-- Feature 3: Progress Analytics -->
-        <router-link to="progressanalytics">
-          <div
-            @mouseenter="hoveredFeature = 3"
-            @mouseleave="hoveredFeature = null"
-            class="bg-blue-50 rounded-xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer"
-            :class="{'ring-2 ring-blue-500': hoveredFeature === 3}"
-          >
-            <div class="flex items-center mb-4">
-              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
-                <span class="text-2xl">📈</span>
-              </div>
-              <h4 class="text-xl font-bold">Progress Analytics</h4>
-            </div>
-            <p class="text-gray-600 mb-4">Visualize your study patterns with interactive charts and actionable insights.</p>
-            <div class="flex flex-wrap gap-2">
-              <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Data Visualization</span>
-              <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Performance Tracking</span>
-            </div>
-          </div>
-        </router-link>
-
-        <!-- Feature 4: Smart Flashcards -->
-        <router-link to="smartflashcards">
-          <div
-            @mouseenter="hoveredFeature = 4"
-            @mouseleave="hoveredFeature = null"
-            class="bg-blue-50 rounded-xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer"
-            :class="{'ring-2 ring-blue-500': hoveredFeature === 4}"
-          >
-            <div class="flex items-center mb-4">
-              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
-                <span class="text-2xl">🔖</span>
-              </div>
-              <h4 class="text-xl font-bold">Smart Flashcards</h4>
-            </div>
-            <p class="text-gray-600 mb-4">Spaced repetition system that adapts to your learning pace for maximum retention.</p>
-            <div class="flex flex-wrap gap-2">
-              <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Active Recall</span>
-              <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Spaced Repetition</span>
-            </div>
-          </div>
-        </router-link>
-
-        <!-- Feature 5: Resource Library -->
-        <router-link to="resources">
-          <div
-            @mouseenter="hoveredFeature = 5"
-            @mouseleave="hoveredFeature = null"
-            class="bg-blue-50 rounded-xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer"
-            :class="{'ring-2 ring-blue-500': hoveredFeature === 5}"
-          >
-            <div class="flex items-center mb-4">
-              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
-                <span class="text-2xl">📚</span>
-              </div>
-              <h4 class="text-xl font-bold">Resource Library</h4>
-            </div>
-            <p class="text-gray-600 mb-4">Organized repository for all your study materials - PDFs, videos, links, and more.</p>
-            <div class="flex flex-wrap gap-2">
-              <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Cloud Storage</span>
-              <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Organization</span>
-            </div>
-          </div>
-        </router-link>
-
-        <!-- Feature 6: Study Groups -->
-        <router-link to="tutor">
-        <div
-  class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
-  @mouseenter="activeFeature = 'aiTutor'"
->
-  <div class="h-48 bg-gradient-to-br from-indigo-100 to-blue-100 flex items-center justify-center">
-    <div class="ai-tutor-visual flex flex-col items-center">
-      <div class="relative mb-2">
-        <div class="w-20 h-20 rounded-full bg-indigo-200 flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-          </svg>
+    <!-- Supercharge Learning Section -->
+    <section class="py-20 bg-white">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+          <h3 class="text-3xl font-bold mb-4">Supercharge Your Learning</h3>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Discover 15 powerful features designed to optimize your study sessions, boost retention, and maximize academic performance.
+          </p>
         </div>
-        <div class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 border-2 border-white flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-          </svg>
-        </div>
-      </div>
-      <div class="typing-indicator flex space-x-1">
-        <div class="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style="animation-delay: 0ms"></div>
-        <div class="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style="animation-delay: 150ms"></div>
-        <div class="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style="animation-delay: 300ms"></div>
-      </div>
-    </div>
-  </div>
-  <div class="p-6">
-    <h3 class="text-xl font-bold mb-2 flex items-center">
-      <span class="icon-box bg-indigo-100 text-indigo-600 p-2 rounded-lg mr-3">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-        </svg>
-      </span>
-      AI Tutor
-    </h3>
-    <p class="text-gray-600 mb-4">
-      24/7 personalized tutoring with adaptive explanations, instant feedback, and step-by-step problem solving.
-    </p>
-    <div class="flex flex-wrap gap-2">
-      <span class="feature-tag bg-indigo-100 text-indigo-800">Instant Help</span>
-      <span class="feature-tag bg-indigo-100 text-indigo-800">Adaptive Learning</span>
-      <span class="feature-tag bg-indigo-100 text-indigo-800">Multisubject</span>
-    </div>
-  </div>
-</div>
-        </router-link>
-      </div>
 
-      <!-- Advanced Analytics Showcase -->
-      <div class="mt-16 bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl overflow-hidden shadow-2xl">
-        <div class="md:flex">
-          <div class="md:w-1/2 p-10 text-white">
-            <h4 class="text-2xl font-bold mb-4">Advanced Progress Analytics</h4>
-            <p class="mb-6 text-blue-100">Data-driven insights into your study habits with beautiful visualizations to identify strengths and improvement areas.</p>
-            
-            <div class="mb-6">
-              <h5 class="font-bold mb-3">Key Benefits</h5>
-              <ul class="space-y-2">
-                <li class="flex items-center">
-                  <svg class="w-5 h-5 text-green-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <span>Hour tracking by subject</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="w-5 h-5 text-green-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <span>Performance trend analysis</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="w-5 h-5 text-green-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <span>Comparative benchmarks</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="w-5 h-5 text-green-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <span>Custom report generation</span>
-                </li>
-              </ul>
+        <!-- Interactive Feature Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Feature 1: AI Study Recommendations -->
+          <router-link to="/aistudy">
+            <div
+              @mouseenter="hoveredFeature = 1"
+              @mouseleave="hoveredFeature = null"
+              class="bg-blue-50 rounded-xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer"
+              :class="{'ring-2 ring-blue-500': hoveredFeature === 1}"
+            >
+              <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                  <span class="text-2xl">✨</span>
+                </div>
+                <h4 class="text-xl font-bold">AI Study Recommendations</h4>
+              </div>
+              <p class="text-gray-600 mb-4">Get personalized schedule suggestions based on your courses, deadlines, and performance.</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Smart Scheduling</span>
+                <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Performance Analysis</span>
+              </div>
             </div>
-            
-            <button class="bg-yellow-400 text-blue-900 font-bold px-6 py-3 rounded-lg hover:bg-yellow-300 transition-colors">
-              Try Analytics Dashboard
-            </button>
-          </div>
-          
-          <div class="md:w-1/2 bg-white p-8 flex items-center justify-center">
-            <div class="relative w-full h-full">
-              <!-- Interactive Chart Placeholder -->
-              <div class="bg-gray-100 rounded-lg p-4 h-64 flex items-center justify-center">
-                <div class="text-center">
-                  <div class="mb-2 text-gray-500">Interactive Performance Chart</div>
-                  <div class="text-xs text-gray-400 italic">(Visualization appears here)</div>
+          </router-link>
+
+          <!-- Feature 2: Focus Timer -->
+          <router-link to="/timer">
+            <div
+              @mouseenter="hoveredFeature = 2"
+              @mouseleave="hoveredFeature = null"
+              class="bg-blue-50 rounded-xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer"
+              :class="{'ring-2 ring-blue-500': hoveredFeature === 2}"
+            >
+              <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                  <span class="text-2xl">⏱️</span>
+                </div>
+                <h4 class="text-xl font-bold">Focus Timer</h4>
+              </div>
+              <p class="text-gray-600 mb-4">Built-in Pomodoro timer with customizable work/break intervals and session tracking.</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Productivity</span>
+                <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Time Management</span>
+              </div>
+            </div>
+          </router-link>
+
+          <!-- Feature 3: Progress Analytics -->
+          <router-link to="/progressanalytics">
+            <div
+              @mouseenter="hoveredFeature = 3"
+              @mouseleave="hoveredFeature = null"
+              class="bg-blue-50 rounded-xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer"
+              :class="{'ring-2 ring-blue-500': hoveredFeature === 3}"
+            >
+              <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                  <span class="text-2xl">📈</span>
+                </div>
+                <h4 class="text-xl font-bold">Progress Analytics</h4>
+              </div>
+              <p class="text-gray-600 mb-4">Visualize your study patterns with interactive charts and actionable insights.</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Data Visualization</span>
+                <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Performance Tracking</span>
+              </div>
+            </div>
+          </router-link>
+
+          <!-- Feature 4: Smart Flashcards -->
+          <router-link to="/smartflashcards">
+            <div
+              @mouseenter="hoveredFeature = 4"
+              @mouseleave="hoveredFeature = null"
+              class="bg-blue-50 rounded-xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer"
+              :class="{'ring-2 ring-blue-500': hoveredFeature === 4}"
+            >
+              <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                  <span class="text-2xl">🔖</span>
+                </div>
+                <h4 class="text-xl font-bold">Smart Flashcards</h4>
+              </div>
+              <p class="text-gray-600 mb-4">Spaced repetition system that adapts to your learning pace for maximum retention.</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Active Recall</span>
+                <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Spaced Repetition</span>
+              </div>
+            </div>
+          </router-link>
+
+          <!-- Feature 5: Resource Library -->
+          <router-link to="/resources">
+            <div
+              @mouseenter="hoveredFeature = 5"
+              @mouseleave="hoveredFeature = null"
+              class="bg-blue-50 rounded-xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer"
+              :class="{'ring-2 ring-blue-500': hoveredFeature === 5}"
+            >
+              <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                  <span class="text-2xl">📚</span>
+                </div>
+                <h4 class="text-xl font-bold">Resource Library</h4>
+              </div>
+              <p class="text-gray-600 mb-4">Organized repository for all your study materials - PDFs, videos, links, and more.</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Cloud Storage</span>
+                <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Organization</span>
+              </div>
+            </div>
+          </router-link>
+
+          <!-- Feature 6: Study Groups -->
+          <router-link to="/tutor">
+            <div
+              class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+              @mouseenter="activeFeature = 'Tutor'"
+            >
+              <div class="h-48 bg-gradient-to-br from-indigo-100 to-blue-100 flex items-center justify-center">
+                <div class="ai-tutor-visual flex flex-col items-center">
+                  <div class="relative mb-2">
+                    <div class="w-20 h-20 rounded-full bg-indigo-200 flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                      </svg>
+                    </div>
+                    <div class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 border-2 border-white flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="typing-indicator flex space-x-1">
+                    <div class="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style="animation-delay: 0ms"></div>
+                    <div class="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style="animation-delay: 150ms"></div>
+                    <div class="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style="animation-delay: 300ms"></div>
+                  </div>
                 </div>
               </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2 flex items-center">
+                  <span class="icon-box bg-indigo-100 text-indigo-600 p-2 rounded-lg mr-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                  </span>
+                  AI Tutor
+                </h3>
+                <p class="text-gray-600 mb-4">
+                  24/7 personalized tutoring with adaptive explanations, instant feedback, and step-by-step problem solving.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <span class="feature-tag bg-indigo-100 text-indigo-800">Instant Help</span>
+                  <span class="feature-tag bg-indigo-100 text-indigo-800">Adaptive Learning</span>
+                  <span class="feature-tag bg-indigo-100 text-indigo-800">Multisubject</span>
+                </div>
+              </div>
+            </div>
+          </router-link>
+        </div>
+
+        <!-- Advanced Analytics Showcase -->
+        <div class="mt-16 bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl overflow-hidden shadow-2xl">
+          <div class="md:flex">
+            <div class="md:w-1/2 p-10 text-white">
+              <h4 class="text-2xl font-bold mb-4">Advanced Progress Analytics</h4>
+              <p class="mb-6 text-blue-100">Data-driven insights into your study habits with beautiful visualizations to identify strengths and improvement areas.</p>
               
-              <!-- Code snippet overlay -->
-              <div class="absolute bottom-4 left-4 bg-gray-800 text-blue-300 p-3 rounded-lg text-xs font-mono opacity-90">
-                <div>const chart = new Chart(ctx, {{ '{' }}</div>
-                <div class="ml-4">type: 'radar',</div>
-                <div class="ml-4">data: {{ '{' }}</div>
-                <div class="ml-8">labels: subjects,</div>
-                <div class="ml-8">datasets: [{{ '{' }}</div>
-                <div class="ml-12">label: 'Your Performance',</div>
-                <div class="ml-12">data: scores,</div>
-                <div class="ml-12">backgroundColor: 'rgba(54, 162, 235, 0.2)'</div>
-                <div class="ml-8">}]</div>
-                <div class="ml-4">}</div>
-                <div>});</div>
+              <div class="mb-6">
+                <h5 class="font-bold mb-3">Key Benefits</h5>
+                <ul class="space-y-2">
+                  <li class="flex items-center">
+                    <svg class="w-5 h-5 text-green-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span>Hour tracking by subject</span>
+                  </li>
+                  <li class="flex items-center">
+                    <svg class="w-5 h-5 text-green-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span>Performance trend analysis</span>
+                  </li>
+                  <li class="flex items-center">
+                    <svg class="w-5 h-5 text-green-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span>Comparative benchmarks</span>
+                  </li>
+                  <li class="flex items-center">
+                    <svg class="w-5 h-5 text-green-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span>Custom report generation</span>
+                  </li>
+                </ul>
+              </div>
+              
+              <button class="bg-yellow-400 text-blue-900 font-bold px-6 py-3 rounded-lg hover:bg-yellow-300 transition-colors">
+                Try Analytics Dashboard
+              </button>
+            </div>
+            
+            <div class="md:w-1/2 bg-white p-8 flex items-center justify-center">
+              <div class="relative w-full h-full">
+                <!-- Interactive Chart Placeholder -->
+                <div class="bg-gray-100 rounded-lg p-4 h-64 flex items-center justify-center">
+                  <div class="text-center">
+                    <div class="mb-2 text-gray-500">Interactive Performance Chart</div>
+                    <div class="text-xs text-gray-400 italic">(Visualization appears here)</div>
+                  </div>
+                </div>
+                
+                <!-- Code snippet overlay -->
+                <div class="absolute bottom-4 left-4 bg-gray-800 text-blue-300 p-3 rounded-lg text-xs font-mono opacity-90">
+                  <div>const chart = new Chart(ctx, {{ '{' }}</div>
+                  <div class="ml-4">type: 'radar',</div>
+                  <div class="ml-4">data: {{ '{' }}</div>
+                  <div class="ml-8">labels: subjects,</div>
+                  <div class="ml-8">datasets: [{{ '{' }}</div>
+                  <div class="ml-12">label: 'Your Performance',</div>
+                  <div class="ml-12">data: scores,</div>
+                  <div class="ml-12">backgroundColor: 'rgba(54, 162, 235, 0.2)'</div>
+                  <div class="ml-8">}]</div>
+                  <div class="ml-4">}</div>
+                  <div>});</div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+    
     <!-- Testimonials Section -->
     <section id="testimonials" class="py-20 bg-white">
       <div class="container mx-auto px-6">
@@ -719,8 +659,8 @@
         </div>
       </div>
     </section>
-
-    <!-- Footer -->
+    
+    <!--Footer  -->
     <footer class="bg-blue-900 text-white pt-16 pb-8">
       <div class="container mx-auto px-6">
         <div class="grid md:grid-cols-4 gap-12 mb-12">
@@ -732,7 +672,7 @@
               <h4 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-white">Jibu AI</h4>
             </div>
 
-            <p class="text-blue-200 mb-4" >Your AI-powered exam assistant for success. </p>
+            <p class="text-blue-200 mb-4">Your AI-powered exam assistant for success. </p>
             <div class="flex space-x-4">
               <a href="#" class="text-blue-300 hover:text-white transition-colors">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -787,17 +727,38 @@
           <p>&copy; 2025 Jibu AI. All rights reserved. Made with ❤️ in Kenya</p>
         </div>
       </div>
-    </footer>
+    </footer> 
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-const hoveredFeature = ref(null);
+import { useUserStore } from '@/stores/user';
+import { useRouter } from 'vue-router';
 
+const userStore = useUserStore()
+
+console.log('Is logged in:', userStore.isAuthenticated)
+console.log('User email:', userStore.userEmail)
+console.log('Full user object:', userStore.user)
+
+
+const router = useRouter();
+if (userStore.isAuthenticated) {
+  console.log('✅ User is logged in')
+} else {
+  console.log('🚫 User is not logged in')
+}
+const hoveredFeature = ref(null);
+const activeFeature = ref(null);
 const mobileMenuOpen = ref(false);
 const activeTab = ref(0);
 const activeFAQ = ref(null);
+
+const handleLogout = () => {
+  userStore.logout();
+  router.push('/login');
+};
 
 const toggleMobileMenu = () => {
   mobileMenuOpen.value = !mobileMenuOpen.value;
@@ -862,10 +823,10 @@ const testimonials = [
     name: "James Kariuki",
     initials: "JK",
     school: "Gudka",
-    quote: "The voice assistance feature is a game-changer. I can study while commuting without looking at my phone.I went from  scoring 50% average on my english to scoring 90% ,i just love this app  ",
+    quote: "The voice assistance feature is a game-changer. I can study while commuting without looking at my phone.I went from scoring 50% average on my english to scoring 90%, I just love this app",
     rating: 5
   },
-   {
+  {
     name: "Grace Ombogo",
     initials: "Go",
     school: "Gudka",
@@ -877,7 +838,7 @@ const testimonials = [
 const faqs = [
   {
     question: "What subjects does Jibu AI cover?",
-    answer: "Jibu AI currently covers all  subjects including Mathematics, English, Kiswahili, Sciences (Physics, Chemistry, Biology), Humanities (History, Geography, CRE), and Business subjects (Business Studies, Accounting)."
+    answer: "Jibu AI currently covers all subjects including Mathematics, English, Kiswahili, Sciences (Physics, Chemistry, Biology), Humanities (History, Geography, CRE), and Business subjects (Business Studies, Accounting)."
   },
   {
     question: "How accurate are the solutions provided?",
@@ -915,6 +876,8 @@ const faqs = [
   animation: bounce 2s infinite;
 }
 
+
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -937,6 +900,7 @@ const faqs = [
     transform: translateY(-10px);
   }
 }
+
 .feature-card {
   transition: all 0.3s ease;
 }
@@ -945,5 +909,4 @@ const faqs = [
   transform: translateY(-5px);
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
 }
-
 </style>

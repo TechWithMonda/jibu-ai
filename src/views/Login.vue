@@ -43,10 +43,10 @@
             <div class="mt-1">
               <input
                 id="email"
-                v-model="email"
-                name="email"
-                type="email"
-                autocomplete="email"
+                v-model="emailOrUsername"
+                name="emailOrUsername"
+                type="emailOrUsername"
+                autocomplete="username"
                 required
                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               />
@@ -154,6 +154,9 @@
                 Signing in...
               </span>
             </button>
+            <div v-if="errorMessage" class="mb-4 text-sm text-red-600 text-center">
+    {{ errorMessage }}
+  </div>
           </div>
         </form>
 
@@ -208,33 +211,113 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+import axios from 'axios'
+import { useToast } from 'vue-toastification'
+
+const emailOrUsername = ref('')
+const password = ref('')
+const rememberMe = ref(false)
+const showPassword = ref(false)
+const isLoading = ref(false)
+const errorMessage = ref('')
 
 const router = useRouter()
-const email = ref('')
-const password = ref('')
-const showPassword = ref(false)
-const rememberMe = ref(false)
-const isLoading = ref(false)
+const userStore = useUserStore()
+const toast = useToast()
 
-const handleLogin = () => {
+const handleLogin = async () => {
+  if (!emailOrUsername.value || !password.value) {
+  errorMessage.value = 'Please enter both username/email and password'
+  return
+}
+
+
   isLoading.value = true
-  // Simulate API call
-  setTimeout(() => {
+  errorMessage.value = ''
+
+  try {
+   const response = await axios.post('http://localhost:8000/api/login/', {
+  username: emailOrUsername.value,
+  password: password.value,
+ 
+})
+
+const data = response.data
+console.log('Login response:', data) // ✅ Safe now
+
+
+
+
+    const { access, refresh, user } = response.data
+console.log('User received:', user)
+    // Store tokens
+    localStorage.setItem('access_token', access)
+    if (rememberMe.value) {
+      localStorage.setItem('refresh_token', refresh)
+    } else {
+      sessionStorage.setItem('refresh_token', refresh)
+    }
+
+    // Set default auth header
+    axios.defaults.headers.common['Authorization'] = `Bearer ${access}`
+
+    // Update user store
+    userStore.login(user)
+
+    // Show success message
+    toast.success('Login successful!')
+
+    // Redirect to dashboard or intended rou
+    const redirectPath = router.currentRoute.value.query.redirect || '/'
+    router.push(redirectPath)
+
+  } catch (error) {
+    console.error('Login error:', error)
+    
+    if (error.response) {
+      // Handle Django backend errors
+      const { data } = error.response
+      if (data.detail) {
+        errorMessage.value = data.detail
+      } else if (data.email) {
+        errorMessage.value = data.email[0]
+      } else if (data.password) {
+        errorMessage.value = data.password[0]
+      } else {
+        errorMessage.value = 'Login failed. Please try again.'
+      }
+    } else {
+      errorMessage.value = 'Network error. Please check your connection.'
+    }
+    
+    toast.error(errorMessage.value)
+  } finally {
     isLoading.value = false
-    router.push('/')
-  }, 1500)
+  }
 }
 
-const loginWithGoogle = () => {
-  // Implement Google OAuth
-  console.log('Login with Google')
+const loginWithGoogle = async () => {
+  try {
+    // Redirect to Django's Google OAuth URL
+    window.location.href = '/api/auth/google/login/'
+  } catch (error) {
+    toast.error('Failed to initiate Google login')
+    console.error('Google login error:', error)
+  }
 }
 
-const loginWithMicrosoft = () => {
-  // Implement Microsoft OAuth
-  console.log('Login with Microsoft')
+const loginWithMicrosoft = async () => {
+  try {
+    // Redirect to Django's Microsoft OAuth URL
+    window.location.href = '/api/auth/microsoft/login/'
+  } catch (error) {
+    toast.error('Failed to initiate Microsoft login')
+    console.error('Microsoft login error:', error)
+  }
 }
 </script>
+
 
 <style scoped>
 /* Add any custom styles here */
