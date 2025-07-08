@@ -67,6 +67,8 @@ CORS_ALLOWED_ORIGINS = [
     "https://jibu-ai.vercel.app",
 ]
 
+MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+
 ROOT_URLCONF = 'jibu_backend.urls'
 
 TEMPLATES = [
