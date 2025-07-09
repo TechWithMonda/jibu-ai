@@ -621,9 +621,9 @@
   <Footer/>
 </template>
 
-
 <script>
-import axios from 'axios';
+
+import api from '@/axios'; // Use the configured Axios instance
 
 export default {
   data() {
@@ -656,7 +656,6 @@ export default {
       progressInterval: null,
       
       // API configuration
-      apiBaseUrl: 'https://web-production-d639.up.railway.app/api/analyze',
       authToken: localStorage.getItem('authToken') || null
     }
   },
@@ -855,9 +854,9 @@ export default {
         // Add model type
         formData.append('model_type', this.selectedModel);
 
-        // Call Django backend
-        const response = await axios.post(
-          this.apiBaseUrl,
+        // Use the configured Axios instance
+        const response = await api.post(
+          '/api/analyze/',
           formData,
           {
             headers: {
@@ -911,7 +910,7 @@ export default {
     formatApiResponse(text) {
       const html = text
         .replace(/\n\n/g, '</p><p>')
-        .replace(/\n/g, '<br>')
+        .replace(/\n/g, '<>')
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .replace(/\*(.*?)\*/g, '<em>$1</em>');
       
@@ -964,9 +963,9 @@ export default {
     }
   }
 }
+
+
 </script>
-
-
 <style>
 /* Animation for camera flash */
 @keyframes flash {

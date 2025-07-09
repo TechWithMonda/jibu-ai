@@ -254,9 +254,9 @@ console.log('User received:', user)
     // Store tokens
     localStorage.setItem('accessToken', access)
     if (rememberMe.value) {
-      localStorage.setItem('refresh_token', refresh)
+      localStorage.setItem('refreshToken', refresh)
     } else {
-      sessionStorage.setItem('refresh_token', refresh)
+      sessionStorage.setItem('refreshToken', refresh)
     }
 
     // Set default auth header
