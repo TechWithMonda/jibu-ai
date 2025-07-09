@@ -579,44 +579,74 @@
     </div>
 
     <!-- Results Modal -->
-    <div v-if="showResults" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded-xl p-6 max-w-2xl w-full mx-4 max-h-[80vh] overflow-y-auto">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="text-xl font-medium text-gray-800">Analysis Results</h3>
-          <button @click="showResults = false" class="text-gray-500 hover:text-gray-700">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-          </button>
+   <div v-if="showResults" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-xl p-6 max-w-2xl w-full mx-4 max-h-[80vh] overflow-y-auto shadow-2xl transform transition-all duration-300 scale-95 hover:scale-100">
+    <div class="flex justify-between items-center mb-4 border-b pb-3">
+      <h3 class="text-2xl font-bold text-gray-800 flex items-center">
+        <span class="animate-bounce mr-2">🎯</span>
+        Analysis Results
+      </h3>
+      <button 
+        @click="showResults = false" 
+        class="text-gray-500 hover:text-gray-700 transition-transform hover:rotate-90"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-100 hover:shadow-md transition-shadow">
+      <div class="flex items-center">
+        <div class="mr-3 p-2 bg-blue-100 rounded-full animate-pulse">
+          <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
         </div>
-        
-        <div class="mb-4 p-3 bg-blue-50 rounded-lg">
-          <div class="flex items-center">
-            <div class="mr-3 p-2 bg-blue-100 rounded-full">
-              <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-            </div>
-            <div>
-              <h4 class="font-medium text-blue-800">Model Used: {{ selectedModel.charAt(0).toUpperCase() + selectedModel.slice(1) }}</h4>
-              <p class="text-sm text-blue-600">Processing time: {{ processingTime }} seconds</p>
-            </div>
-          </div>
+        <div>
+          <h4 class="font-bold text-blue-800 text-lg">Model Used: <span class="bg-blue-100 px-2 py-1 rounded-md">{{ selectedModel.charAt(0).toUpperCase() + selectedModel.slice(1) }}</span></h4>
+          <p class="text-sm text-blue-600 mt-1 flex items-center">
+            <span class="inline-block w-3 h-3 bg-green-400 rounded-full mr-2 animate-pulse"></span>
+            Processing time: {{ processingTime }} seconds
+          </p>
         </div>
-        
-        <div class="prose max-w-none">
-          <h4 class="text-lg font-medium mb-2">Document Analysis:</h4>
-          <div v-html="analysisResults"></div>
-        </div>
-        
-        <button 
-          @click="startNewScan"
-          class="mt-6 w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors"
-        >
-          Start New Scan
-        </button>
       </div>
     </div>
+    
+    <div class="prose max-w-none mb-6">
+      <h4 class="text-xl font-bold mb-3 flex items-center">
+        <span class="mr-2">🔍</span>
+        Document Analysis:
+      </h4>
+      <div 
+        v-html="analysisResults" 
+        class="p-4 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors"
+      ></div>
+    </div>
+    
+    <button 
+      @click="startNewScan"
+      class="mt-6 w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 px-4 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-xl flex items-center justify-center"
+    >
+      <span class="mr-2">✨</span>
+      Start New Scan
+      <span class="ml-2">→</span>
+    </button>
+
+    <!-- Fun confetti effect (triggered when modal opens) -->
+    <div v-if="showConfetti" class="fixed inset-0 pointer-events-none">
+      <div v-for="i in 30" :key="i" 
+           class="absolute w-2 h-2 rounded-full"
+           :style="{
+             backgroundColor: confettiColors[i % confettiColors.length],
+             left: `${Math.random() * 100}%`,
+             top: `${Math.random() * 100}%`,
+             transform: `rotate(${Math.random() * 360}deg)`,
+             animation: `confetti-fall ${Math.random() * 3 + 2}s linear forwards`
+           }"></div>
+    </div>
+  </div>
+</div>
   </div>
   <Footer/>
 </template>
@@ -628,6 +658,9 @@ import api from '@/axios'; // Use the configured Axios instance
 export default {
   data() {
     return {
+
+    showConfetti: true,
+    confettiColors: ['#3b82f6', '#6366f1', '#8b5cf6', '#ec4899', '#f43f5e', '#f97316', '#f59e0b', '#10b981'],
       // Navigation
       activeTab: 'home',
       
@@ -952,6 +985,9 @@ export default {
     if (this.scannerMode === 'camera') {
       this.initializeCamera();
     }
+    setTimeout(() => {
+    this.showConfetti = false;
+  }, 3000);
   },
   beforeUnmount() {
     if (this.progressInterval) {
@@ -1045,5 +1081,19 @@ export default {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
+}
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.scale-95 {
+  transform: scale(0.95);
 }
 </style>
