@@ -621,35 +621,43 @@
   <Footer/>
 </template>
 
+
 <script>
+import axios from 'axios';
 
 export default {
   data() {
     return {
+      // Navigation
       activeTab: 'home',
+      
+      // Scanner state
       scannerMode: 'camera',
-      
-      // Camera/scanning related
       capturedImage: null,
-      flashOn: false,
-      facingMode: 'environment',
-      cameraError: null,
-      stream: null,
-      
-      // File upload related
       uploadedFile: null,
       filePreview: null,
       isDragging: false,
       uploadSuccess: false,
       
-      // Processing related
+      // Camera controls
+      flashOn: false,
+      facingMode: 'environment',
+      cameraError: null,
+      stream: null,
+      cameraReady: false,
+      
+      // Processing state
       selectedModel: 'standard',
       processing: false,
       progress: 0,
       processingTime: 0,
       showResults: false,
       analysisResults: '',
-      progressInterval: null
+      progressInterval: null,
+      
+      // API configuration
+      apiBaseUrl: 'https://web-production-d639.up.railway.app/api/analyze',
+      authToken: localStorage.getItem('authToken') || null
     }
   },
   methods: {
@@ -661,31 +669,36 @@ export default {
           this.stream.getTracks().forEach(track => track.stop());
         }
         
-        // Get camera access
-        this.stream = await navigator.mediaDevices.getUserMedia({
+        const constraints = {
           video: { 
             facingMode: this.facingMode,
             width: { ideal: 1280 },
             height: { ideal: 720 }
-          },
-          audio: false
-        });
+          }
+        };
         
-        // Attach stream to video element
+        // Try to get camera with ideal constraints
+        this.stream = await navigator.mediaDevices.getUserMedia(constraints)
+          .catch(async () => {
+            // Fallback to less strict constraints if ideal fails
+            const fallbackConstraints = { video: { facingMode: this.facingMode } };
+            return await navigator.mediaDevices.getUserMedia(fallbackConstraints);
+          });
+        
         this.$refs.cameraPreview.srcObject = this.stream;
-        this.$refs.cameraPreview.play();
+        this.cameraReady = true;
         this.cameraError = null;
       } catch (error) {
         console.error('Camera error:', error);
         this.cameraError = 'Could not access camera. Please check permissions.';
-        // Fallback to upload mode if camera fails
-        this.scannerMode = 'upload';
+        this.cameraReady = false;
+        this.scannerMode = 'upload'; // Fallback to upload mode
       }
     },
-    
-    // Camera methods
+
     captureDocument() {
-      // Create canvas to capture image
+      if (!this.cameraReady) return;
+      
       const video = this.$refs.cameraPreview;
       const canvas = document.createElement('canvas');
       canvas.width = video.videoWidth;
@@ -695,35 +708,36 @@ export default {
       // Draw video frame to canvas
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
       
-      // Simulate flash effect
+      // Apply basic image processing for better OCR results
+      ctx.filter = 'contrast(1.2) brightness(1.1)';
+      ctx.drawImage(canvas, 0, 0);
+      
+      // Flash effect
+      this.triggerFlashEffect();
+      
+      // Set captured image with higher quality
+      this.capturedImage = canvas.toDataURL('image/jpeg', 0.9);
+    },
+
+    triggerFlashEffect() {
       const flash = document.createElement('div');
       flash.className = 'absolute inset-0 bg-white opacity-0';
       this.$refs.cameraPreview.parentNode.appendChild(flash);
       
-      // Animate flash
-      flash.animate([
-        { opacity: 0 },
-        { opacity: 0.8 },
-        { opacity: 0 }
-      ], {
-        duration: 300,
-        easing: 'ease-out'
-      }).onfinish = () => {
-        flash.remove();
-        
-        // Set captured image
-        this.capturedImage = canvas.toDataURL('image/jpeg', 0.8);
-      };
+      const animation = flash.animate(
+        [{ opacity: 0 }, { opacity: 0.8 }, { opacity: 0 }],
+        { duration: 300, easing: 'ease-out' }
+      );
+      
+      animation.onfinish = () => flash.remove();
     },
-    
+
     retakePhoto() {
       this.capturedImage = null;
     },
     
     toggleFlash() {
       this.flashOn = !this.flashOn;
-      // Note: Actual flash control requires specific device APIs
-      // This is just for UI indication
     },
     
     async toggleCamera() {
@@ -756,23 +770,26 @@ export default {
     },
     
     validateAndSetFile(file) {
-      if (!file) return;
+      if (!file) return false;
       
       // Validate file size (10MB max)
-      if (file.size > 10 * 1024 * 1024) {
-        alert('File size exceeds 10MB limit. Please choose a smaller file.');
-        return;
+      const maxSize = 10 * 1024 * 1024;
+      if (file.size > maxSize) {
+        this.showError('File Too Large', 'File size exceeds 10MB limit');
+        return false;
       }
       
       // Validate file type
       const validTypes = ['application/pdf', 'image/jpeg', 'image/png'];
-      if (!validTypes.includes(file.type) && !file.name.match(/\.(pdf|jpe?g|png)$/i)) {
-        alert('Please upload a PDF, JPG, or PNG file.');
-        return;
+      const validExtensions = /\.(pdf|jpe?g|png)$/i;
+      
+      if (!validTypes.includes(file.type) && !file.name.match(validExtensions)) {
+        this.showError('Invalid File Type', 'Please upload a PDF, JPG, or PNG file');
+        return false;
       }
       
       this.uploadedFile = file;
-      this.uploadSuccess = false;
+      this.uploadSuccess = true;
       
       // Create preview for images
       if (this.isImageFile(file)) {
@@ -782,8 +799,10 @@ export default {
         };
         reader.readAsDataURL(file);
       }
+      
+      return true;
     },
-    
+
     isImageFile(file) {
       return file.type.match('image.*') || file.name.match(/\.(jpe?g|png)$/i);
     },
@@ -807,119 +826,98 @@ export default {
     },
     
     // Analysis methods
-    analyzeDocument() {
+    async analyzeDocument() {
       this.processing = true;
       this.progress = 0;
       this.processingTime = 0;
       
-      // Simulate processing
+      // Start progress simulation
       this.progressInterval = setInterval(() => {
-        this.progress += Math.floor(Math.random() * 10) + 5;
-        this.processingTime += 0.5;
-        
-        if (this.progress >= 100) {
-          clearInterval(this.progressInterval);
-          this.progress = 100;
-          
-          // Generate results based on selected model
-          this.generateResults();
-          
-          setTimeout(() => {
-            this.processing = false;
-            this.showResults = true;
-          }, 500);
+        if (this.progress < 90) {
+          this.progress += Math.floor(Math.random() * 10) + 5;
+          this.processingTime += 0.5;
         }
       }, 500);
-    },
-    
-    generateResults() {
-      if (this.selectedModel === 'basic') {
-        this.analysisResults = `
-          <p class="mb-4">This appears to be a mathematics examination paper focusing on algebra and geometry concepts.</p>
-          <div class="bg-gray-50 p-4 rounded-lg mb-4">
-            <h5 class="font-medium mb-2">Question 1 Solution:</h5>
-            <p>Answer: x = 5</p>
-          </div>
-          <div class="bg-gray-50 p-4 rounded-lg">
-            <h5 class="font-medium mb-2">Question 2 Solution:</h5>
-            <p>Answer: y = 12</p>
-          </div>
-        `;
-      } 
-      else if (this.selectedModel === 'standard') {
-        this.analysisResults = `
-          <p class="mb-4">This mathematics examination covers intermediate algebra with some geometry elements. The problems test understanding of quadratic equations and basic trigonometry.</p>
-          <div class="bg-gray-50 p-4 rounded-lg mb-4">
-            <h5 class="font-medium mb-2">Question 1 Solution:</h5>
-            <p><strong>Problem:</strong> Solve for x: 2x² - 8x + 6 = 0</p>
-            <p class="mt-2"><strong>Step 1:</strong> Divide all terms by 2: x² - 4x + 3 = 0</p>
-            <p><strong>Step 2:</strong> Factor the equation: (x - 1)(x - 3) = 0</p>
-            <p><strong>Step 3:</strong> Solutions: x = 1 or x = 3</p>
-            <p class="mt-2"><strong>Answer:</strong> x = 1, 3</p>
-          </div>
-          <div class="bg-gray-50 p-4 rounded-lg">
-            <h5 class="font-medium mb-2">Question 2 Solution:</h5>
-            <p><strong>Problem:</strong> Find the area of a right triangle with legs 3cm and 4cm</p>
-            <p class="mt-2"><strong>Step 1:</strong> Area of triangle = (base × height)/2</p>
-            <p><strong>Step 2:</strong> Plug in values: (3 × 4)/2 = 6</p>
-            <p class="mt-2"><strong>Answer:</strong> 6cm²</p>
-          </div>
-        `;
-      }
-      else {
-        this.analysisResults = `
-          <p class="mb-4">This advanced mathematics examination tests comprehensive understanding of algebraic concepts and their geometric applications. Below is a detailed analysis of each problem with multiple solution approaches.</p>
-          
-          <div class="bg-gray-50 p-4 rounded-lg mb-4">
-            <h5 class="font-medium mb-2">Question 1: Quadratic Equation</h5>
-            <p><strong>Problem Statement:</strong> Solve 2x² - 8x + 6 = 0</p>
-            
-            <h6 class="font-medium mt-3 mb-1">Solution Method 1: Factoring</h6>
-            <p>1. Standard form: ax² + bx + c = 0 → 2x² - 8x + 6 = 0</p>
-            <p>2. Divide by common factor (2): x² - 4x + 3 = 0</p>
-            <p>3. Find factors of 3 that add to -4: (x - 1)(x - 3) = 0</p>
-            <p>4. Solutions: x = 1, x = 3</p>
-            
-            <h6 class="font-medium mt-3 mb-1">Solution Method 2: Quadratic Formula</h6>
-            <p>1. Identify coefficients: a=2, b=-8, c=6</p>
-            <p>2. Apply formula: x = [-b ± √(b²-4ac)]/2a</p>
-            <p>3. Calculate discriminant: √(64-48) = √16 = 4</p>
-            <p>4. Solutions: x = [8±4]/4 → x=3, x=1</p>
-            
-            <h6 class="font-medium mt-3 mb-1">Graphical Interpretation</h6>
-            <p>The parabola y=2x²-8x+6 opens upwards with vertex at (2,-2), crossing x-axis at x=1 and x=3.</p>
-            
-            <p class="mt-3"><strong>Final Answer:</strong> x = 1, 3</p>
-          </div>
-          
-          <div class="bg-gray-50 p-4 rounded-lg">
-            <h5 class="font-medium mb-2">Question 2: Geometry Application</h5>
-            <p><strong>Problem Statement:</strong> Find area of right triangle with legs 3cm and 4cm</p>
-            
-            <h6 class="font-medium mt-3 mb-1">Standard Solution</h6>
-            <p>1. For right triangles, area = (leg1 × leg2)/2</p>
-            <p>2. Calculation: (3 × 4)/2 = 6cm²</p>
-            
-            <h6 class="font-medium mt-3 mb-1">Verification via Hypotenuse</h6>
-            <p>1. First confirm it's a right triangle: 3² + 4² = 5² (9+16=25)</p>
-            <p>2. Using hypotenuse (5cm) would require altitude, but standard formula is simpler</p>
-            
-            <h6 class="font-medium mt-3 mb-1">Real-world Application</h6>
-            <p>This could represent a right-angled corner of a room where the legs are walls.</p>
-            
-            <p class="mt-3"><strong>Final Answer:</strong> 6cm²</p>
-          </div>
-          
-          <div class="mt-4 p-4 bg-blue-50 rounded-lg">
-            <h5 class="font-medium text-blue-800 mb-2">Additional Recommendations</h5>
-            <p>1. For similar problems, practice completing the square method</p>
-            <p>2. Review Pythagorean triples for quick geometry solutions</p>
-            <p>3. Consider graphing problems to visualize solutions</p>
-          </div>
-        `;
+
+      try {
+        const formData = new FormData();
+        
+        // Prepare the file for upload
+        if (this.scannerMode === 'camera' && this.capturedImage) {
+          const blob = await this.dataURLtoBlob(this.capturedImage);
+          formData.append('file', blob, 'document.jpg');
+        } else if (this.scannerMode === 'upload' && this.uploadedFile) {
+          formData.append('file', this.uploadedFile);
+        } else {
+          throw new Error('No document provided');
+        }
+
+        // Add model type
+        formData.append('model_type', this.selectedModel);
+
+        // Call Django backend
+        const response = await axios.post(
+          this.apiBaseUrl,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              'Authorization': `Bearer ${this.authToken}`
+            },
+            onUploadProgress: (progressEvent) => {
+              this.progress = Math.min(
+                90,
+                Math.round((progressEvent.loaded * 90) / progressEvent.total)
+              );
+            }
+          }
+        );
+
+        // Complete the progress
+        this.progress = 100;
+        clearInterval(this.progressInterval);
+
+        // Process results
+        this.analysisResults = this.formatApiResponse(response.data.result);
+        this.processingTime = response.data.metadata?.processing_time || this.processingTime;
+        this.showResults = true;
+
+      } catch (error) {
+        console.error('Analysis error:', error);
+        clearInterval(this.progressInterval);
+        this.showError(
+          'Analysis Failed', 
+          error.response?.data?.error || 'An error occurred during analysis'
+        );
+      } finally {
+        this.processing = false;
       }
     },
-    
+
+    dataURLtoBlob(dataURL) {
+      const arr = dataURL.split(',');
+      const mime = arr[0].match(/:(.*?);/)[1];
+      const bstr = atob(arr[1]);
+      let n = bstr.length;
+      const u8arr = new Uint8Array(n);
+      
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      
+      return new Blob([u8arr], { type: mime });
+    },
+
+    formatApiResponse(text) {
+      const html = text
+        .replace(/\n\n/g, '</p><p>')
+        .replace(/\n/g, '<br>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>');
+      
+      return `<p>${html}</p>`;
+    },
+
     startNewScan() {
       this.showResults = false;
       this.capturedImage = null;
@@ -928,7 +926,15 @@ export default {
       this.progress = 0;
       this.processingTime = 0;
       this.$refs.fileInput.value = '';
-      this.scannerMode = 'camera';
+      
+      if (this.scannerMode === 'camera') {
+        this.initializeCamera();
+      }
+    },
+
+    showError(title, message) {
+      // Using alert for simplicity - replace with your notification system
+      alert(`${title}: ${message}`);
     }
   },
   watch: {
@@ -938,7 +944,6 @@ export default {
           this.initializeCamera();
         });
       } else if (this.stream) {
-        // Clean up camera when switching away from camera mode
         this.stream.getTracks().forEach(track => track.stop());
         this.stream = null;
       }

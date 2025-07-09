@@ -252,7 +252,7 @@ console.log('Login response:', data) // ✅ Safe now
     const { access, refresh, user } = response.data
 console.log('User received:', user)
     // Store tokens
-    localStorage.setItem('access_token', access)
+    localStorage.setItem('accessToken', access)
     if (rememberMe.value) {
       localStorage.setItem('refresh_token', refresh)
     } else {
