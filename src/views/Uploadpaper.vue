@@ -663,7 +663,7 @@
 <script>
 
 import api from '@/axios'; // Use the configured Axios instance
-
+import { useUploadStore } from '@/stores/uploads'
 export default {
   data() {
     return {
@@ -923,73 +923,81 @@ export default {
 },
     
     // Analysis methods
-    async analyzeDocument() {
-      this.processing = true;
-      this.progress = 0;
-      this.processingTime = 0;
-      
-      // Start progress simulation
-      this.progressInterval = setInterval(() => {
-        if (this.progress < 90) {
-          this.progress += Math.floor(Math.random() * 10) + 5;
-          this.processingTime += 0.5;
+async analyzeDocument() {
+  this.processing = true;
+  this.progress = 0;
+  this.processingTime = 0;
+  
+  // Start progress simulation
+  this.progressInterval = setInterval(() => {
+    if (this.progress < 90) {
+      this.progress += Math.floor(Math.random() * 10) + 5;
+      this.processingTime += 0.5;
+    }
+  }, 500);
+
+  try {
+    const formData = new FormData();
+    
+    // Prepare the file for upload
+    if (this.scannerMode === 'camera' && this.capturedImage) {
+      const blob = await this.dataURLtoBlob(this.capturedImage);
+      formData.append('file', blob, 'document.jpg');
+    } else if (this.scannerMode === 'upload' && this.uploadedFile) {
+      formData.append('file', this.uploadedFile);
+    } else {
+      throw new Error('No document provided');
+    }
+
+    // Add model type
+    formData.append('model_type', this.selectedModel);
+
+    // Use the configured Axios instance
+    const response = await api.post(
+      'https://web-production-d639.up.railway.app/api/analyze/',
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${this.authToken}`
+        },
+        onUploadProgress: (progressEvent) => {
+          this.progress = Math.min(
+            90,
+            Math.round((progressEvent.loaded * 90) / progressEvent.total)
+          );
         }
-      }, 500);
-
-      try {
-        const formData = new FormData();
-        
-        // Prepare the file for upload
-        if (this.scannerMode === 'camera' && this.capturedImage) {
-          const blob = await this.dataURLtoBlob(this.capturedImage);
-          formData.append('file', blob, 'document.jpg');
-        } else if (this.scannerMode === 'upload' && this.uploadedFile) {
-          formData.append('file', this.uploadedFile);
-        } else {
-          throw new Error('No document provided');
-        }
-
-        // Add model type
-        formData.append('model_type', this.selectedModel);
-
-        // Use the configured Axios instance
-        const response = await api.post(
-          '/api/analyze/',
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-              'Authorization': `Bearer ${this.authToken}`
-            },
-            onUploadProgress: (progressEvent) => {
-              this.progress = Math.min(
-                90,
-                Math.round((progressEvent.loaded * 90) / progressEvent.total)
-              );
-            }
-          }
-        );
-
-        // Complete the progress
-        this.progress = 100;
-        clearInterval(this.progressInterval);
-
-        // Process results
-        this.analysisResults = this.formatApiResponse(response.data.result);
-        this.processingTime = response.data.metadata?.processing_time || this.processingTime;
-        this.showResults = true;
-
-      } catch (error) {
-        console.error('Analysis error:', error);
-        clearInterval(this.progressInterval);
-        this.showError(
-          'Analysis Failed', 
-          error.response?.data?.error || 'An error occurred during analysis'
-        );
-      } finally {
-        this.processing = false;
       }
-    },
+    );
+
+    // Complete the progress
+    this.progress = 100;
+    clearInterval(this.progressInterval);
+
+    // Process results
+    this.analysisResults = this.formatApiResponse(response.data.result);
+    this.processingTime = response.data.metadata?.processing_time || this.processingTime;
+    this.showResults = true;
+
+    // Update the upload store
+    const uploadStore = useUploadStore();
+    uploadStore.addUpload({
+      model: this.selectedModel,
+      fileType: this.scannerMode === 'camera' ? 'image' : 
+               this.uploadedFile?.type || 'file'
+    });
+
+  } catch (error) {
+    console.error('Analysis error:', error);
+    clearInterval(this.progressInterval);
+    this.showError(
+      'Analysis Failed', 
+      error.response?.data?.error || 'An error occurred during analysis'
+    );
+  } finally {
+    this.processing = false;
+  }
+},
 
     dataURLtoBlob(dataURL) {
       const arr = dataURL.split(',');
