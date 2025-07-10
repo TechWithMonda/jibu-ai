@@ -1,5 +1,5 @@
 <template>
-    <NavBar/>
+  <NavBar/>
   <div class="flex flex-col h-full max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
     <!-- Header -->
     <div class="bg-indigo-600 text-white p-4 flex items-center justify-between">
@@ -21,12 +21,17 @@
       </button>
     </div>
     
-    <!-- Chat messages -->
+    <!-- Messages container -->
     <div ref="messagesContainer" class="flex-1 p-4 overflow-y-auto space-y-4">
       <div v-for="(message, index) in messages" :key="index" class="flex" :class="{'justify-end': message.sender === 'user'}">
         <div class="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl rounded-lg p-3" 
-             :class="message.sender === 'user' ? 'bg-indigo-100 text-indigo-900' : 'bg-gray-100 text-gray-800'">
-          <div v-if="message.type === 'text'" v-html="message.content"></div>
+             :class="{
+               'bg-indigo-100 text-indigo-900': message.sender === 'user',
+               'bg-gray-100 text-gray-800': message.sender === 'bot',
+               'border border-indigo-300': message.sender === 'user',
+               'animate-pulse': message.type === 'typing'
+             }">
+          <div v-if="message.type === 'text'" class="prose prose-sm max-w-none" v-html="formatMessage(message.content)"></div>
           <div v-if="message.type === 'typing'" class="flex space-x-1 items-center">
             <div class="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style="animation-delay: 0ms"></div>
             <div class="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style="animation-delay: 150ms"></div>
@@ -34,10 +39,36 @@
           </div>
         </div>
       </div>
+      
+      <div v-if="showSuggestions" class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
+        <button 
+          v-for="(suggestion, idx) in suggestedQuestions" 
+          :key="idx"
+          @click="selectSuggestion(suggestion)"
+          class="text-left p-2 bg-indigo-50 text-indigo-800 rounded-lg hover:bg-indigo-100 transition text-sm"
+        >
+          {{ suggestion }}
+        </button>
+      </div>
     </div>
     
     <!-- Input area -->
     <div class="border-t p-4 bg-gray-50">
+      <div class="flex justify-center mb-3 space-x-2">
+      <button 
+  v-for="level in knowledgeLevels"
+  :key="level.value"
+  @click="setKnowledgeLevel(level.value)"
+  class="text-xs px-3 py-1 rounded-full transition"
+  :class="{
+    'bg-indigo-600 text-white': knowledgeLevel === level.value,
+    'bg-gray-200 text-gray-700 hover:bg-gray-300': knowledgeLevel !== level.value
+  }"
+>
+  {{ level.label }}
+</button>
+      </div>
+      
       <form @submit.prevent="sendMessage" class="flex space-x-2">
         <input
           v-model="userInput"
@@ -57,25 +88,19 @@
         </button>
       </form>
       
-      <!-- Quick action buttons -->
-      <div v-if="lastBotMessage" class="flex flex-wrap gap-2 mt-3">
+      <div v-if="lastBotMessage" class="flex flex-wrap gap-2 mt-3 justify-center">
         <button
-          @click="requestSimplification"
-          class="text-xs bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full hover:bg-indigo-200 transition"
+          v-for="action in quickActions"
+          :key="action.label"
+          @click="action.handler"
+          class="text-xs px-3 py-1 rounded-full transition flex items-center"
+          :class="{
+            'bg-indigo-100 text-indigo-800 hover:bg-indigo-200': !action.primary,
+            'bg-indigo-600 text-white hover:bg-indigo-700': action.primary
+          }"
         >
-          Simplify explanation
-        </button>
-        <button
-          @click="requestExample"
-          class="text-xs bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full hover:bg-indigo-200 transition"
-        >
-          Give me an example
-        </button>
-        <button
-          @click="requestPractice"
-          class="text-xs bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full hover:bg-indigo-200 transition"
-        >
-          Give me a practice question
+          <span v-if="action.icon" class="mr-1">{{ action.icon }}</span>
+          {{ action.label }}
         </button>
       </div>
     </div>
@@ -83,7 +108,15 @@
   <Footer/>
 </template>
 
+
+
 <script>
+import axios from 'axios';
+
+function getAuthToken() {
+  return localStorage.getItem("accessToken");
+}
+
 export default {
   name: 'AITutor',
   data() {
@@ -91,15 +124,37 @@ export default {
       userInput: '',
       messages: [
         {
+          id: 1,
           sender: 'bot',
           type: 'text',
-          content: 'Hello! I\'m your AI tutor. What would you like to learn about today?'
+          content: 'Hello! I\'m your AI tutor. What subject would you like help with today?',
+          timestamp: new Date()
         }
       ],
       isTyping: false,
-      conversationContext: [],
-      knowledgeLevel: 'intermediate' // Can be 'beginner', 'intermediate', 'advanced'
-    }
+      knowledgeLevel: 'intermediate',
+      currentSubject: null,
+      conversationId: null,
+      apiEndpoint: 'https://web-production-d639.up.railway.app/api/tutor/',
+      knowledgeLevels: [
+        { value: 'beginner', label: 'Beginner' },
+        { value: 'intermediate', label: 'Intermediate' },
+        { value: 'advanced', label: 'Advanced' }
+      ],
+      suggestedQuestions: [
+        "Explain quantum physics basics",
+        "How do I solve quadratic equations?",
+        "What's the difference between DNA and RNA?",
+        "Explain the French Revolution in simple terms"
+      ],
+      showSuggestions: true,
+      quickActions: [
+        { label: 'Simplify', icon: '🧠', handler: () => this.requestSimplification() },
+        { label: 'Example', icon: '📚', handler: () => this.requestExample() },
+        { label: 'Practice', icon: '✏️', handler: () => this.requestPractice() },
+        { label: 'Related', icon: '🔗', handler: () => this.requestRelated(), primary: true }
+      ]
+    };
   },
   computed: {
     lastBotMessage() {
@@ -108,169 +163,210 @@ export default {
     }
   },
   methods: {
+    formatMessage(content) {
+      if (content == null) return '';
+      if (typeof content === 'object') {
+        try {
+          content = JSON.stringify(content, null, 2);
+        } catch {
+          content = String(content);
+        }
+      }
+      content = String(content);
+      return content
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/`(.*?)`/g, '<code class="bg-gray-200 px-1 rounded">$1</code>')
+        .replace(/\n/g, '<br>');
+    },
+
     async sendMessage() {
       if (!this.userInput.trim()) return;
       
-      // Add user message to chat
-      this.messages.push({
-        sender: 'user',
-        type: 'text',
-        content: this.userInput
-      });
-      
-      const userQuestion = this.userInput;
+      const userMessage = this.userInput.trim();
       this.userInput = '';
       
-      // Show typing indicator
+      this.addMessage('user', 'text', userMessage);
+      this.showSuggestions = false;
+      
       this.isTyping = true;
-      this.messages.push({
-        sender: 'bot',
-        type: 'typing'
-      });
-      
-      this.scrollToBottom();
-      
+      const typingMsgId = this.addMessage('bot', 'typing');
+
       try {
-        // In a real app, you would call your AI API here
-        // For demo purposes, we'll simulate a response
-        await this.simulateAIResponse(userQuestion);
+        const token = getAuthToken();
+        if (!token) throw new Error('Authentication required');
+
+        const response = await axios.post(
+          this.apiEndpoint,
+          {
+            message: userMessage,
+            knowledge_level: this.knowledgeLevel,
+            conversation_id: this.conversationId
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            timeout: 15000
+          }
+        );
+
+        this.removeMessage(typingMsgId);
+        
+        if (response.data?.response) {
+          this.addMessage('bot', 'text', response.data.response);
+          this.conversationId = response.data.conversation_id || this.conversationId;
+        } else {
+          throw new Error('Empty response from server');
+        }
       } catch (error) {
-        console.error('Error getting AI response:', error);
-        this.messages.push({
-          sender: 'bot',
-          type: 'text',
-          content: 'Sorry, I encountered an error. Please try again.'
-        });
+        this.removeMessage(typingMsgId);
+        
+        let errorMessage = 'Sorry, something went wrong. Please try again.';
+        if (error.response) {
+          if (error.response.data?.error?.knowledge_level) {
+            errorMessage = `Invalid level: ${error.response.data.error.knowledge_level[0]}`;
+          } else if (error.response.status === 401) {
+            errorMessage = 'Please login again.';
+          } else if (error.response.data?.error) {
+            errorMessage = error.response.data.error;
+          }
+        }
+        
+        this.addMessage('bot', 'text', errorMessage);
       } finally {
-        // Remove typing indicator
-        this.messages = this.messages.filter(m => m.type !== 'typing');
         this.isTyping = false;
         this.scrollToBottom();
       }
-      
-      // Add to conversation context
-      this.conversationContext.push({
-        role: 'user',
-        content: userQuestion
-      });
-    },
-    
-    async simulateAIResponse(question) {
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1500 + Math.random() * 1000));
-      
-      // This is where you'd normally process the question with your AI
-      // For demo, we'll use some predefined responses
-      let response = '';
-      
-      if (question.toLowerCase().includes('hello') || question.toLowerCase().includes('hi')) {
-        response = 'Hello! How can I help you with your studies today?';
-      } else if (question.toLowerCase().includes('math') || question.toLowerCase().includes('calculate')) {
-        response = this.getMathResponse();
-      } else if (question.toLowerCase().includes('science') || question.toLowerCase().includes('physics') || question.toLowerCase().includes('chemistry')) {
-        response = this.getScienceResponse();
-      } else if (question.toLowerCase().includes('history') || question.toLowerCase().includes('historical')) {
-        response = this.getHistoryResponse();
-      } else if (question.toLowerCase().includes('programming') || question.toLowerCase().includes('code')) {
-        response = this.getProgrammingResponse();
-      } else {
-        response = `I understand you're asking about "${question}". Here's what I can tell you: Learning about ${question.split(' ')[0]} is fascinating. The key concepts involve...`;
+       try {
+    const response = await axios.post(
+      this.apiEndpoint,
+      {
+        message: userMessage,
+        knowledge_level: this.knowledgeLevel,
+        conversation_id: this.conversationId
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
       }
-      
-      this.messages.push({
-        sender: 'bot',
-        type: 'text',
-        content: response
+    );
+
+    this.removeMessage(typingMsgId);
+
+    // Properly extract the AI response based on your API's structure
+    let aiResponse = '';
+    
+    // If using direct OpenAI API response format:
+    if (response.data?.choices?.[0]?.message?.content) {
+      aiResponse = response.data.choices[0].message.content;
+    }
+    // If using your custom backend format:
+    else if (response.data?.response) {
+      aiResponse = response.data.response;
+    }
+    else {
+      throw new Error('Unable to parse AI response');
+    }
+
+    // Add the clean response to messages
+    this.addMessage('bot', 'text', aiResponse);
+    this.conversationId = response.data.conversation_id || this.conversationId;
+
+  } catch (error) {
+    // ... existing error handling ...
+  }
+    },
+
+    // [Keep all other methods unchanged]
+    selectSuggestion(question) {
+      this.userInput = question;
+      this.showSuggestions = false;
+      this.$nextTick(() => {
+        document.querySelector('input').focus();
       });
-      
-      // Add to conversation context
-      this.conversationContext.push({
-        role: 'assistant',
-        content: response
-      });
     },
-    
-    requestSimplification() {
+
+    setKnowledgeLevel(level) {
+      this.knowledgeLevel = level;
+      this.addMessage('bot', 'text', `Switched to ${level} level explanations.`);
+    },
+
+    addMessage(sender, type, content = '') {
+      const message = {
+        id: Date.now() + Math.floor(Math.random() * 1000),
+        sender,
+        type,
+        content,
+        timestamp: new Date()
+      };
+      this.messages.push(message);
+      this.scrollToBottom();
+      return message.id;
+    },
+
+    removeMessage(messageId) {
+      this.messages = this.messages.filter(m => m.id !== messageId);
+    },
+
+    removeTypingIndicator() {
+      this.messages = this.messages.filter(m => m.type !== 'typing');
+    },
+
+    async requestRelated() {
       if (!this.lastBotMessage) return;
-      
-      this.userInput = `Can you explain this in simpler terms? "${this.lastBotMessage.content.substring(0, 50)}..."`;
-      this.sendMessage();
+      this.userInput = `What are related concepts to: "${this.lastBotMessage.content.substring(0, 50)}..."`;
+      await this.sendMessage();
     },
-    
-    requestExample() {
+
+    async requestSimplification() {
       if (!this.lastBotMessage) return;
-      
-      this.userInput = `Can you give me an example related to this? "${this.lastBotMessage.content.substring(0, 50)}..."`;
-      this.sendMessage();
+      this.userInput = `Explain simply: "${this.lastBotMessage.content.substring(0, 50)}..."`;
+      await this.sendMessage();
     },
-    
-    requestPractice() {
+
+    async requestExample() {
       if (!this.lastBotMessage) return;
-      
-      this.userInput = `Can you give me a practice question about this? "${this.lastBotMessage.content.substring(0, 50)}..."`;
-      this.sendMessage();
+      this.userInput = `Give an example: "${this.lastBotMessage.content.substring(0, 50)}..."`;
+      await this.sendMessage();
     },
-    
+
+    async requestPractice() {
+      if (!this.lastBotMessage) return;
+      this.userInput = `Give practice question: "${this.lastBotMessage.content.substring(0, 50)}..."`;
+      await this.sendMessage();
+    },
+
     scrollToBottom() {
       this.$nextTick(() => {
-        if (this.$refs.messagesContainer) {
-          this.$refs.messagesContainer.scrollTop = this.$refs.messagesContainer.scrollHeight;
+        const container = this.$refs.messagesContainer;
+        if (container) {
+          container.scrollTop = container.scrollHeight;
         }
       });
     },
-    
+
     resetChat() {
       this.messages = [{
+        id: Date.now(),
         sender: 'bot',
         type: 'text',
-        content: 'Hello! I\'m your AI tutor. What would you like to learn about today?'
+        content: 'Hello! I\'m your AI tutor. What would you like to learn about today?',
+        timestamp: new Date()
       }];
-      this.conversationContext = [];
       this.knowledgeLevel = 'intermediate';
-    },
-    
-    // Demo response generators
-    getMathResponse() {
-      const responses = [
-        "Math is the language of the universe! For your question about mathematics, let's break it down step by step. First, we need to understand the fundamental concepts before applying them to solve problems.",
-        "When working with math problems, it's important to identify what you're being asked to find. Then recall the relevant formulas or theorems that can help you reach the solution.",
-        "Mathematics builds on previous knowledge. Make sure you understand the basics before tackling more complex problems. Would you like me to explain any specific concept in more detail?"
-      ];
-      return responses[Math.floor(Math.random() * responses.length)];
-    },
-    
-    getScienceResponse() {
-      const responses = [
-        "Science helps us understand how the world works! The scientific method involves observation, hypothesis, experimentation, and conclusion. What specific area of science are you interested in?",
-        "In physics, we study matter and energy and how they interact. Chemistry focuses on substances and their transformations. Biology examines living organisms. Which would you like to explore?",
-        "Scientific concepts often build on each other. It's helpful to start with foundational ideas before moving to more advanced topics. Would you like me to simplify any scientific concept for you?"
-      ];
-      return responses[Math.floor(Math.random() * responses.length)];
-    },
-    
-    getHistoryResponse() {
-      const responses = [
-        "History helps us understand how past events shape our present. When studying history, consider the context - what was happening economically, socially, and politically at that time.",
-        "Historical analysis often involves examining primary and secondary sources to understand different perspectives on events. Would you like to explore a specific historical period or event?",
-        "Understanding cause and effect is crucial in history. Events rarely happen in isolation - they're usually the result of multiple factors. Would you like me to walk through a historical timeline with you?"
-      ];
-      return responses[Math.floor(Math.random() * responses.length)];
-    },
-    
-    getProgrammingResponse() {
-      const responses = [
-        "Programming is about solving problems with code. The key is to break down problems into smaller, manageable parts. What programming language or concept are you working with?",
-        "When learning to code, practice is essential. Start with simple programs and gradually increase complexity. Debugging is a normal part of the process - don't get discouraged!",
-        "Programming concepts like variables, loops, and functions are building blocks for more complex software. Would you like me to explain any specific programming concept with examples?"
-      ];
-      return responses[Math.floor(Math.random() * responses.length)];
+      this.currentSubject = null;
+      this.conversationId = null;
+      this.showSuggestions = true;
     }
   }
-}
+};
 </script>
 
 <style scoped>
-/* Custom animations */
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-5px); }
