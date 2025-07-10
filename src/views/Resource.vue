@@ -252,6 +252,7 @@
   <Footer/>
 </template>
 
+
 <script>
 export default {
   name: 'ResourceLibrary',
@@ -328,6 +329,21 @@ export default {
     storagePercentage() {
       return (this.usedStorage / this.totalStorage) * 100;
     }
+  },
+  mounted() {
+    // Add keydown event listener for Escape key
+    window.addEventListener('keydown', this.handleKeyDown);
+    
+    // Handle browser/mobile back button
+    window.addEventListener('popstate', this.handlePopState);
+    
+    // Initialize history state
+    history.replaceState({ modalOpen: false, previewOpen: false }, '');
+  },
+  beforeDestroy() {
+    // Clean up event listeners when component is destroyed
+    window.removeEventListener('keydown', this.handleKeyDown);
+    window.removeEventListener('popstate', this.handlePopState);
   },
   methods: {
     setActiveCategory(category) {
@@ -464,7 +480,10 @@ export default {
     },
     toggleUploadModal() {
       this.showUploadModal = !this.showUploadModal;
-      if (!this.showUploadModal) {
+      if (this.showUploadModal) {
+        // Add a history state when modal opens
+        history.pushState({ modalOpen: true }, '');
+      } else {
         this.dragOver = false;
       }
     },
@@ -567,6 +586,8 @@ export default {
     },
     openResource(resource) {
       this.previewResource = resource;
+      // Add a history state when preview opens
+      history.pushState({ previewOpen: true }, '');
     },
     closePreview() {
       this.previewResource = null;
@@ -589,6 +610,31 @@ export default {
         return 'https://samplelib.com/lib/preview/mp4/sample-5s.mp4';
       }
       return '';
+    },
+    handleKeyDown(event) {
+      // Close modal when Escape key is pressed
+      if (event.key === 'Escape') {
+        if (this.showUploadModal) {
+          this.toggleUploadModal();
+        }
+        if (this.previewResource) {
+          this.closePreview();
+        }
+      }
+    },
+    handlePopState(event) {
+      // Close modals when back button is pressed
+      if (this.showUploadModal) {
+        this.toggleUploadModal();
+      }
+      if (this.previewResource) {
+        this.closePreview();
+      }
+      
+      // If the state indicates a modal was open, prevent default back behavior
+      if (event.state && (event.state.modalOpen || event.state.previewOpen)) {
+        history.pushState(null, null, window.location.pathname);
+      }
     }
   }
 }
