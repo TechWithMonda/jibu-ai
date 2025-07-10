@@ -1,3 +1,4 @@
+
 <template>
     <NavBar/> 
   <div class="resource-library">
@@ -189,24 +190,18 @@
       </div>
     </div>
 
-    <!-- Preview Modal -->
-    <div v-if="previewResource" class="modal-overlay preview-overlay">
+    <!-- Preview Modal - Corrected Structure -->
+    <div v-if="previewResource" class="modal-overlay preview-overlay" @click.self="closePreview">
       <div class="preview-modal">
+        <!-- Modal Header with Close Button -->
         <div class="modal-header">
           <h2>{{ previewResource.name }}</h2>
-          <div class="preview-actions">
-            <button @click="downloadResource(previewResource)" title="Download">
-              <i class="fas fa-download"></i>
-            </button>
-            <button @click="shareResource(previewResource)" title="Share">
-              <i class="fas fa-share-alt"></i>
-            </button>
-            <button @click="closePreview" class="close-btn">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
+          <button @click="closePreview" class="close-btn">
+            <i class="fas fa-times"></i>
+          </button>
         </div>
         
+        <!-- Preview Content -->
         <div class="preview-content">
           <div v-if="isImage(previewResource.type)" class="image-preview">
             <img :src="getPreviewUrl(previewResource)" :alt="previewResource.name">
@@ -222,6 +217,7 @@
             </video>
           </div>
           
+          <!-- Generic Preview for unsupported types -->
           <div v-else class="generic-preview">
             <i :class="getFileIcon(previewResource.type)"></i>
             <p>No preview available for this file type</p>
@@ -231,6 +227,7 @@
           </div>
         </div>
         
+        <!-- File Details -->
         <div class="file-details">
           <div class="detail-row">
             <span>File Name:</span>
@@ -252,7 +249,7 @@
       </div>
     </div>
   </div>
-<Footer/>
+  <Footer/>
 </template>
 
 <script>
@@ -504,7 +501,6 @@ export default {
       this.simulateUpload();
     },
     simulateUpload() {
-      // Simulate upload progress
       this.uploadQueue.forEach((item, index) => {
         const interval = setInterval(() => {
           if (item.progress < 100) {
@@ -512,8 +508,6 @@ export default {
             if (item.progress > 100) item.progress = 100;
           } else {
             clearInterval(interval);
-            
-            // Move to resources when all are uploaded
             if (this.uploadQueue.every(item => item.progress === 100)) {
               setTimeout(() => {
                 this.finishUpload();
@@ -524,7 +518,6 @@ export default {
       });
     },
     finishUpload() {
-      // Add uploaded files to resources
       this.uploadQueue.forEach(item => {
         const newResource = {
           id: this.resources.length + 1,
@@ -537,11 +530,9 @@ export default {
         this.resources.unshift(newResource);
       });
       
-      // Update storage usage
       const totalUploaded = this.uploadQueue.reduce((sum, item) => sum + item.size, 0);
       this.usedStorage += Math.ceil(totalUploaded / (1024 * 1024));
       
-      // Reset upload state
       this.uploadQueue = [];
       this.uploading = false;
       this.showUploadModal = false;
@@ -559,20 +550,15 @@ export default {
       this.activeResourceActions = this.activeResourceActions === resourceId ? null : resourceId;
     },
     downloadResource(resource) {
-      // Simulate download
       console.log('Downloading:', resource.name);
-      // In a real app, this would trigger a file download
     },
     shareResource(resource) {
-      // Simulate share
       console.log('Sharing:', resource.name);
-      // In a real app, this would open a share dialog
     },
     deleteResource(resourceId) {
       if (confirm('Are you sure you want to delete this resource?')) {
         const index = this.resources.findIndex(r => r.id === resourceId);
         if (index !== -1) {
-          // Update storage usage
           this.usedStorage -= Math.ceil(this.resources[index].size / (1024 * 1024));
           this.resources.splice(index, 1);
         }
@@ -595,8 +581,6 @@ export default {
       return ['mp4', 'mov', 'avi', 'mkv'].includes(type);
     },
     getPreviewUrl(resource) {
-      // In a real app, this would return the actual file URL
-      // For demo, we'll return placeholder URLs based on file type
       if (this.isImage(resource.type)) {
         return 'https://via.placeholder.com/800x600?text=' + encodeURIComponent(resource.name);
       } else if (this.isPDF(resource.type)) {
@@ -988,7 +972,24 @@ body {
   border-radius: 0;
   width: 100%;
 }
+/* Ensure the close button is visible and clickable */
+.modal-header .close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #6c757d;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
 
+/* Make sure the modal header is always visible */
+.modal-header {
+  position: relative;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
 .action-menu button:hover {
   background-color: #f8f9fa;
 }
