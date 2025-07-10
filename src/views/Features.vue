@@ -159,7 +159,7 @@
       <router-link to="tutor">
        <div
   class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
-  @mouseenter="activeFeature = 'aiTutor'"
+  @mouseenter="activeFeature = 'ai'"
 >
   <div class="h-48 bg-gradient-to-br from-indigo-100 to-blue-100 flex items-center justify-center">
     <div class="ai-tutor-visual flex flex-col items-center">
