@@ -98,33 +98,33 @@
       </router-link>
 
       <!-- Feature Card 4: Flashcards -->
-      <router-link to="smartflashcards">
-          <div
-            class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
-            @mouseenter="activeFeature = 'flashcards'"
-          >
-            <div class="h-48 bg-gradient-to-br from-yellow-100 to-amber-100 flex items-center justify-center">
-              <div class="flashcard-preview w-40 h-28 bg-white rounded-lg shadow-md transform rotate-2 transition-transform duration-300 hover:rotate-0">
-                <div class="card-front absolute inset-0 bg-blue-50 flex items-center justify-center p-4">
-                  <span class="text-center">Photosynthesis Equation</span>
-                </div>
-              </div>
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold mb-2 flex items-center">
-                <span class="icon-box bg-yellow-100 text-yellow-600 p-2 rounded-lg mr-3">🔖</span>
-                Smart Flashcards
-              </h3>
-              <p class="text-gray-600 mb-4">
-                Spaced repetition system that adapts to your learning pace for maximum retention.
-              </p>
-              <div class="flex flex-wrap gap-2">
-                <span class="feature-tag">Active Recall</span>
-                <span class="feature-tag">Spaced Repetition</span>
-              </div>
-            </div>
-          </div>
-      </router-link>
+      <router-link to="/plagiarism-checker">
+  <div
+    class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+    @mouseenter="activeFeature = 'plagiarism'"
+  >
+    <div class="h-48 bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center">
+      <div class="document-preview w-40 h-28 bg-white rounded-lg shadow-md transform rotate-2 transition-transform duration-300 hover:rotate-0">
+        <div class="absolute inset-0 bg-white flex items-center justify-center p-4">
+          <span class="text-center">AI Similarity Scan</span>
+        </div>
+      </div>
+    </div>
+    <div class="p-6">
+      <h3 class="text-xl font-bold mb-2 flex items-center">
+        <span class="icon-box bg-blue-100 text-blue-600 p-2 rounded-lg mr-3">🔍</span>
+        AI Plagiarism Check
+      </h3>
+      <p class="text-gray-600 mb-4">
+        Advanced detection system that identifies copied content across thousands of documents.
+      </p>
+      <div class="flex flex-wrap gap-2">
+        <span class="feature-tag">PDF/DOC Analysis</span>
+        <span class="feature-tag">Side-by-Side Compare</span>
+      </div>
+    </div>
+  </div>
+</router-link>
 
       <!-- Feature Card 5: Resource Library -->
       <router-link to="resources">
@@ -272,17 +272,17 @@ export default {
           ],
           codeExample: `const chart = new Chart(ctx, {\n  type: 'radar',\n  data: {\n    labels: subjects,\n    datasets: [{\n      label: 'Your Performance',\n      data: scores,\n      backgroundColor: 'rgba(54, 162, 235, 0.2)'\n    }]\n  }\n});`
         },
-        flashcards: {
-          title: "Adaptive Flashcard System",
-          description: "Smart flashcards that use spaced repetition algorithms to maximize long-term knowledge retention.",
-          benefits: [
-            "Auto-schedules review sessions",
-            "Supports images/diagrams",
-            "Tracks confidence levels",
-            "Mobile-friendly review mode"
-          ],
-          codeExample: `function scheduleReview(card) {\n  const intervals = [1, 3, 7, 14, 30];\n  const days = intervals[card.confidence] || 60;\n  return new Date(Date.now() + days * 86400000);\n}`
-        },
+         plagiarism: {
+    title: "AI Plagiarism Checker",
+    description: "Advanced detection system that scans your documents against thousands of sources to identify potential plagiarism.",
+    benefits: [
+      "Supports PDF, DOC, and DOCX formats",
+      "Side-by-side comparison view",
+      "Detailed similarity scoring",
+      "Database of Kenyan student papers"
+    ],
+    codeExample: `async function checkPlagiarism(content) {\n  const embedding = await ai.generateEmbedding(content);\n  const matches = await database.findSimilar(embedding);\n  return matches.filter(m => m.similarity > 0.8);\n}`
+  },
         resources: {
           title: "Unified Resource Library",
           description: "Centralized hub for all your study materials with powerful organization and search capabilities.",

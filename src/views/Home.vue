@@ -266,27 +266,28 @@
             </div>
           </router-link>
 
-          <!-- Feature 4: Smart Flashcards -->
-          <router-link to="/smartflashcards">
-            <div
-              @mouseenter="hoveredFeature = 4"
-              @mouseleave="hoveredFeature = null"
-              class="bg-blue-50 rounded-xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer"
-              :class="{'ring-2 ring-blue-500': hoveredFeature === 4}"
-            >
-              <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
-                  <span class="text-2xl">🔖</span>
-                </div>
-                <h4 class="text-xl font-bold">Smart Flashcards</h4>
-              </div>
-              <p class="text-gray-600 mb-4">Spaced repetition system that adapts to your learning pace for maximum retention.</p>
-              <div class="flex flex-wrap gap-2">
-                <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Active Recall</span>
-                <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Spaced Repetition</span>
-              </div>
-            </div>
-          </router-link>
+          <!-- Feature 4: plagiarsim-checker -->
+      <router-link to="/plagiarism-checker">
+  <div
+    @mouseenter="hoveredFeature = 4"
+    @mouseleave="hoveredFeature = null"
+    class="bg-blue-50 rounded-xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer"
+    :class="{'ring-2 ring-blue-500': hoveredFeature === 4}"
+  >
+    <div class="flex items-center mb-4">
+      <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+        <span class="text-2xl">🔍</span>
+      </div>
+      <h4 class="text-xl font-bold">AI Plagiarism Checker</h4>
+    </div>
+    <p class="text-gray-600 mb-4">Detect copied content with advanced AI that compares against thousands of documents.</p>
+    <div class="flex flex-wrap gap-2">
+      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">PDF/DOC Support</span>
+      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Side-by-Side Comparison</span>
+      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Similarity Scoring</span>
+    </div>
+  </div>
+</router-link>
 
           <!-- Feature 5: Resource Library -->
           <router-link to="/resources">
