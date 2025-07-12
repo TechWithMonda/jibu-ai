@@ -379,75 +379,154 @@
         </div>
 
         <!-- Advanced Analytics Showcase -->
-        <div class="mt-16 bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl overflow-hidden shadow-2xl">
-          <div class="md:flex">
-            <div class="md:w-1/2 p-10 text-white">
-              <h4 class="text-2xl font-bold mb-4">Advanced Progress Analytics</h4>
-              <p class="mb-6 text-blue-100">Data-driven insights into your study habits with beautiful visualizations to identify strengths and improvement areas.</p>
-              
-              <div class="mb-6">
-                <h5 class="font-bold mb-3">Key Benefits</h5>
-                <ul class="space-y-2">
-                  <li class="flex items-center">
-                    <svg class="w-5 h-5 text-green-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    <span>Hour tracking by subject</span>
-                  </li>
-                  <li class="flex items-center">
-                    <svg class="w-5 h-5 text-green-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    <span>Performance trend analysis</span>
-                  </li>
-                  <li class="flex items-center">
-                    <svg class="w-5 h-5 text-green-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    <span>Comparative benchmarks</span>
-                  </li>
-                  <li class="flex items-center">
-                    <svg class="w-5 h-5 text-green-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    <span>Custom report generation</span>
-                  </li>
-                </ul>
-              </div>
-              
-              <button class="bg-yellow-400 text-blue-900 font-bold px-6 py-3 rounded-lg hover:bg-yellow-300 transition-colors">
-                Try Analytics Dashboard
-              </button>
-            </div>
-            
-            <div class="md:w-1/2 bg-white p-8 flex items-center justify-center">
-              <div class="relative w-full h-full">
-                <!-- Interactive Chart Placeholder -->
-                <div class="bg-gray-100 rounded-lg p-4 h-64 flex items-center justify-center">
-                  <div class="text-center">
-                    <div class="mb-2 text-gray-500">Interactive Performance Chart</div>
-                    <div class="text-xs text-gray-400 italic">(Visualization appears here)</div>
-                  </div>
-                </div>
-                
-                <!-- Code snippet overlay -->
-                <div class="absolute bottom-4 left-4 bg-gray-800 text-blue-300 p-3 rounded-lg text-xs font-mono opacity-90">
-                  <div>const chart = new Chart(ctx, {{ '{' }}</div>
-                  <div class="ml-4">type: 'radar',</div>
-                  <div class="ml-4">data: {{ '{' }}</div>
-                  <div class="ml-8">labels: subjects,</div>
-                  <div class="ml-8">datasets: [{{ '{' }}</div>
-                  <div class="ml-12">label: 'Your Performance',</div>
-                  <div class="ml-12">data: scores,</div>
-                  <div class="ml-12">backgroundColor: 'rgba(54, 162, 235, 0.2)'</div>
-                  <div class="ml-8">}]</div>
-                  <div class="ml-4">}</div>
-                  <div>});</div>
-                </div>
+       <div class="mt-16 bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl overflow-hidden shadow-2xl transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-1">
+  <div class="md:flex">
+    <!-- Left Content Panel -->
+    <div class="md:w-1/2 p-10 text-white relative overflow-hidden">
+      <!-- Animated background elements -->
+      <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500 rounded-full filter blur-3xl opacity-20 -translate-y-16 translate-x-16"></div>
+      
+      <h4 class="text-2xl md:text-3xl font-bold mb-4 relative z-10 animate-fade-in-up">
+        Advanced Progress Analytics
+      </h4>
+      <p class="mb-6 text-blue-100 relative z-10 animate-fade-in-up delay-100">
+        Data-driven insights into your study habits with beautiful visualizations to identify strengths and improvement areas.
+        <span class="inline-block ml-2 w-4 h-0.5 bg-blue-300 rounded-full animate-pulse"></span>
+      </p>
+      
+      <div class="mb-8 relative z-10">
+        <h5 class="font-bold mb-4 text-lg animate-fade-in-up delay-150">Key Benefits</h5>
+        <ul class="space-y-3">
+          <li v-for="(benefit, index) in [
+            'Hour tracking by subject',
+            'Performance trend analysis',
+            'Comparative benchmarks',
+            'Custom report generation'
+          ]" :key="index" class="flex items-start animate-fade-in-right" :style="`animation-delay: ${index * 0.1 + 0.2}s`">
+            <div class="flex-shrink-0 mt-1 mr-3">
+              <div class="w-6 h-6 rounded-full bg-green-400 bg-opacity-20 flex items-center justify-center">
+                <svg class="w-4 h-4 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
               </div>
             </div>
+            <span>{{ benefit }}</span>
+          </li>
+        </ul>
+      </div>
+      
+      <button class="relative z-10 bg-yellow-400 text-blue-900 font-bold px-6 py-3 rounded-lg hover:bg-yellow-300 transition-all duration-300 group animate-fade-in-up delay-300">
+        <span class="relative z-10 flex items-center">
+          Try Analytics Dashboard
+          <svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+          </svg>
+        </span>
+        <span class="absolute inset-0 bg-yellow-300 rounded-lg opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
+      </button>
+    </div>
+    
+    <!-- Right Chart Panel -->
+    <div class="md:w-1/2 bg-white p-8 flex items-center justify-center relative">
+      <!-- Animated Chart Container -->
+      <div class="w-full h-full bg-gray-50 rounded-lg p-4 flex items-center justify-center relative overflow-hidden">
+        <!-- Animated Radar Chart -->
+        <div class="relative w-full h-64">
+          <!-- Radar Chart Grid -->
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div v-for="i in 3" :key="`circle-${i}`" 
+                 class="absolute border border-gray-200 rounded-full"
+                 :style="{
+                   width: `${i * 30}%`,
+                   height: `${i * 30}%`
+                 }"></div>
+          </div>
+          
+          <!-- Radar Chart Axes -->
+          <div v-for="i in 5" :key="`axis-${i}`"
+               class="absolute top-1/2 left-1/2 h-px w-1/2 bg-gray-300 origin-left"
+               :style="{
+                 transform: `rotate(${i * 72}deg) translateY(-50%)`
+               }"></div>
+          
+          <!-- Animated Data Points -->
+          <div v-for="(subject, index) in ['Math', 'English', 'Science', 'History', 'Geography']" 
+               :key="subject"
+               class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+               :style="{
+                 transform: `
+                   rotate(${index * 72}deg) 
+                   translateY(-50%) 
+                   translateX(${30 + Math.random() * 50}%)
+                   rotate(-${index * 72}deg)
+                 `,
+                 transition: 'transform 1s ease-out',
+                 transitionDelay: `${index * 0.2}s`
+               }">
+            <div class="w-4 h-4 bg-blue-600 rounded-full transform scale-0 animate-pop-in"
+                 :style="`animation-delay: ${index * 0.2 + 0.5}s`"></div>
+          </div>
+          
+          <!-- Animated Data Polygon -->
+          <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon 
+              points="50,10 70,40 90,60 75,90 25,90 10,60 30,40"
+              fill="rgba(59, 130, 246, 0.2)"
+              stroke="rgba(59, 130, 246, 1)"
+              stroke-width="2"
+              stroke-dasharray="300"
+              stroke-dashoffset="300"
+              class="animate-draw"
+              style="animation-delay: 0.5s"
+            />
+          </svg>
+          
+          <!-- Subject Labels -->
+          <div v-for="(subject, index) in ['Math', 'English', 'Science', 'History', 'Geography']" 
+               :key="`label-${index}`"
+               class="absolute text-xs font-medium text-gray-600"
+               :style="{
+                 top: `${50 - Math.cos(index * 2 * Math.PI / 5) * 45}%`,
+                 left: `${50 + Math.sin(index * 2 * Math.PI / 5) * 45}%`,
+                 transform: 'translate(-50%, -50%)',
+                 opacity: 0,
+                 animation: 'fade-in 0.5s ease-out forwards',
+                 animationDelay: `${index * 0.2 + 1}s`
+               }">
+            {{ subject }}
           </div>
         </div>
+        
+        <!-- Floating Tooltip (example) -->
+        <div class="absolute top-1/3 left-1/2 bg-white shadow-lg rounded-lg p-3 transform -translate-x-1/2 -translate-y-1/2 opacity-0 hover:opacity-100 transition-opacity duration-300">
+          <div class="text-sm font-semibold text-blue-600">Math Performance</div>
+          <div class="text-xs text-gray-600">Improved by 24% this month</div>
+          <div class="absolute -bottom-1 left-1/2 w-3 h-3 bg-white transform -translate-x-1/2 rotate-45"></div>
+        </div>
+      </div>
+      
+      <!-- Code Snippet Overlay -->
+      <div class="absolute bottom-4 left-4 bg-gray-800 text-blue-300 p-3 rounded-lg text-xs font-mono opacity-90 hidden md:block transform transition-transform duration-300 hover:scale-105">
+        <div class="flex">
+          <div class="text-gray-500 mr-3 select-none">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</div>
+          <div>
+            <div><span class="text-purple-400">const</span> <span class="text-blue-400">chart</span> = <span class="text-yellow-400">new</span> <span class="text-green-400">Chart</span>(ctx, {</div>
+            <div class="ml-4"><span class="text-blue-400">type</span>: <span class="text-green-300">'radar'</span>,</div>
+            <div class="ml-4"><span class="text-blue-400">data</span>: {</div>
+            <div class="ml-8"><span class="text-blue-400">labels</span>: subjects,</div>
+            <div class="ml-8"><span class="text-blue-400">datasets</span>: [{</div>
+            <div class="ml-12"><span class="text-blue-400">label</span>: <span class="text-green-300">'Your Performance'</span>,</div>
+            <div class="ml-12"><span class="text-blue-400">data</span>: scores,</div>
+            <div class="ml-12"><span class="text-blue-400">backgroundColor</span>: <span class="text-green-300">'rgba(59, 130, 246, 0.2)'</span></div>
+            <div class="ml-8">}]</div>
+            <div class="ml-4">}</div>
+            <div>});</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
       </div>
     </section>
     
