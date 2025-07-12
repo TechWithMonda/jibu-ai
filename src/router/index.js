@@ -40,9 +40,9 @@ const routes = [
     component: () => import('../views/Timetable.vue')
   },
   {
-    path: '/progressanalytics',
-    name: 'progressanalytics',
-    component: () => import('../views/Progressanalytics.vue')
+    path: '/aispeech',
+    name: 'aispeech',
+    component: () => import('../views/AiSpeech.vue')
   },
   {
     path: '/quizai',

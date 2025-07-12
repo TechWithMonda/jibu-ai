@@ -69,33 +69,37 @@
       </router-link>
 
       <!-- Feature Card 3: Progress Tracking -->
-      <router-link to="progressanalytics">
-          <div
-            class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
-            @mouseenter="activeFeature = 'progress'"
-          >
-            <div class="h-48 bg-gradient-to-br from-green-100 to-teal-100 flex items-center justify-center">
-              <div class="chart-container w-full h-full p-4">
-                <div class="chart-bar h-6 bg-teal-400 mb-2" style="width: 80%"></div>
-                <div class="chart-bar h-6 bg-teal-400 mb-2" style="width: 65%"></div>
-                <div class="chart-bar h-6 bg-teal-400" style="width: 90%"></div>
-              </div>
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold mb-2 flex items-center">
-                <span class="icon-box bg-green-100 text-green-600 p-2 rounded-lg mr-3">📈</span>
-                Progress Analytics
-              </h3>
-              <p class="text-gray-600 mb-4">
-                Visualize your study patterns with interactive charts and actionable insights.
-              </p>
-              <div class="flex flex-wrap gap-2">
-                <span class="feature-tag">Data Visualization</span>
-                <span class="feature-tag">Performance Tracking</span>
-              </div>
-            </div>
-          </div>
-      </router-link>
+      <router-link to="/aispeech">
+  <div
+    class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+    @mouseenter="activeFeature = 'speech'"
+  >
+    <div class="h-48 bg-gradient-to-br from-purple-100 to-indigo-100 flex items-center justify-center">
+      <div class="speech-bubbles w-full h-full p-6 flex flex-col justify-center">
+        <div class="speech-bubble bg-white p-3 rounded-lg mb-3 shadow-sm w-3/4 self-start">
+          <div class="text-sm">How do I say "thank you" in Swahili?</div>
+        </div>
+        <div class="speech-bubble bg-indigo-500 text-white p-3 rounded-lg shadow-sm w-4/5 self-end">
+          <div class="text-sm">In Swahili: "Asante"<br>In English: "Thank you"</div>
+        </div>
+      </div>
+    </div>
+    <div class="p-6">
+      <h3 class="text-xl font-bold mb-2 flex items-center">
+        <span class="icon-box bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">🗣️</span>
+        AI Speech Assistant
+      </h3>
+      <p class="text-gray-600 mb-4">
+        Ask questions in English or Kiswahili and get bilingual responses through voice or text.
+      </p>
+      <div class="flex flex-wrap gap-2">
+        <span class="feature-tag">Bilingual AI</span>
+        <span class="feature-tag">Voice Interaction</span>
+        <span class="feature-tag">English/Swahili</span>
+      </div>
+    </div>
+  </div>
+</router-link>
 
       <!-- Feature Card 4: quizai -->
 <router-link to="/quizai">

@@ -245,27 +245,27 @@
           </router-link>
 
           <!-- Feature 3: Progress Analytics -->
-          <router-link to="/progressanalytics">
-            <div
-              @mouseenter="hoveredFeature = 3"
-              @mouseleave="hoveredFeature = null"
-              class="bg-blue-50 rounded-xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer"
-              :class="{'ring-2 ring-blue-500': hoveredFeature === 3}"
-            >
-              <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
-                  <span class="text-2xl">📈</span>
-                </div>
-                <h4 class="text-xl font-bold">Progress Analytics</h4>
-              </div>
-              <p class="text-gray-600 mb-4">Visualize your study patterns with interactive charts and actionable insights.</p>
-              <div class="flex flex-wrap gap-2">
-                <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Data Visualization</span>
-                <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Performance Tracking</span>
-              </div>
-            </div>
-          </router-link>
-
+       <router-link to="/aispeech">
+  <div
+    @mouseenter="hoveredFeature = 4"
+    @mouseleave="hoveredFeature = null"
+    class="bg-purple-50 rounded-xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer"
+    :class="{'ring-2 ring-purple-500': hoveredFeature === 4}"
+  >
+    <div class="flex items-center mb-4">
+      <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
+        <span class="text-2xl">🗣️</span>
+      </div>
+      <h4 class="text-xl font-bold">AI Speech Assistant</h4>
+    </div>
+    <p class="text-gray-600 mb-4">Ask questions in English or Kiswahili and get answers in both languages with our intelligent voice assistant.</p>
+    <div class="flex flex-wrap gap-2">
+      <span class="bg-purple-100 text-purple-800 text-xs px-3 py-1 rounded-full">Bilingual AI</span>
+      <span class="bg-purple-100 text-purple-800 text-xs px-3 py-1 rounded-full">Voice Interaction</span>
+      <span class="bg-purple-100 text-purple-800 text-xs px-3 py-1 rounded-full">English/Kiswahili</span>
+    </div>
+  </div>
+</router-link>
           <!-- Feature 4: quizAi -->
 <router-link to="/quizai">
   <div
