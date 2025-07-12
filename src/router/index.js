@@ -45,9 +45,9 @@ const routes = [
     component: () => import('../views/Progressanalytics.vue')
   },
   {
-    path: '/plagiarism-checker',
-    name: 'plagiarism-checker',
-    component: () => import('../views/PlagiarismChecker.vue')
+    path: '/quizai',
+    name: 'quizai',
+    component: () => import('../views/AiQuiz.vue')
   },
   {
     path: '/features',

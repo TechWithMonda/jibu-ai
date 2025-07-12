@@ -97,35 +97,46 @@
           </div>
       </router-link>
 
-      <!-- Feature Card 4: Flashcards -->
-      <router-link to="/plagiarism-checker">
+      <!-- Feature Card 4: quizai -->
+<router-link to="/quizai">
   <div
     class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
-    @mouseenter="activeFeature = 'plagiarism'"
+    @mouseenter="activeFeature = 'quiz'"
   >
-    <div class="h-48 bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center">
-      <div class="document-preview w-40 h-28 bg-white rounded-lg shadow-md transform rotate-2 transition-transform duration-300 hover:rotate-0">
-        <div class="absolute inset-0 bg-white flex items-center justify-center p-4">
-          <span class="text-center">AI Similarity Scan</span>
+    <div class="h-48 bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center relative">
+      <!-- Animated trophy and progress elements -->
+      <div class="absolute top-4 right-4 trophy-icon bg-yellow-100 text-yellow-600 p-2 rounded-full shadow-sm">
+        🏆
+      </div>
+      <div class="quiz-preview w-40 h-28 bg-white rounded-lg shadow-md transform -rotate-2 transition-transform duration-300 hover:rotate-0">
+        <div class="absolute inset-0 bg-white flex flex-col items-center justify-center p-4">
+          <div class="streak-display flex items-center mb-2">
+            <span class="fire-icon mr-1">🔥</span>
+            <span class="text-sm font-bold">7 day streak</span>
+          </div>
+          <span class="text-center text-sm">Daily AI Quiz</span>
         </div>
+      </div>
+      <div class="absolute bottom-4 left-4 rank-badge bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded-full">
+        Rank #42
       </div>
     </div>
     <div class="p-6">
       <h3 class="text-xl font-bold mb-2 flex items-center">
-        <span class="icon-box bg-blue-100 text-blue-600 p-2 rounded-lg mr-3">🔍</span>
-        AI Plagiarism Check
+        <span class="icon-box bg-blue-100 text-blue-600 p-2 rounded-lg mr-3">🧠</span>
+        AI Quiz Challenge
       </h3>
       <p class="text-gray-600 mb-4">
-        Advanced detection system that identifies copied content across thousands of documents.
+        Daily gamified quizzes with streaks, leaderboards, and rewards to test your AI knowledge.
       </p>
       <div class="flex flex-wrap gap-2">
-        <span class="feature-tag">PDF/DOC Analysis</span>
-        <span class="feature-tag">Side-by-Side Compare</span>
+        <span class="feature-tag">Daily Challenges</span>
+        <span class="feature-tag">Leaderboards</span>
+        <span class="feature-tag">Airtime Rewards</span>
       </div>
     </div>
   </div>
 </router-link>
-
       <!-- Feature Card 5: Resource Library -->
       <router-link to="resources">
         <div
@@ -272,16 +283,52 @@ export default {
           ],
           codeExample: `const chart = new Chart(ctx, {\n  type: 'radar',\n  data: {\n    labels: subjects,\n    datasets: [{\n      label: 'Your Performance',\n      data: scores,\n      backgroundColor: 'rgba(54, 162, 235, 0.2)'\n    }]\n  }\n});`
         },
-         plagiarism: {
-    title: "AI Plagiarism Checker",
-    description: "Advanced detection system that scans your documents against thousands of sources to identify potential plagiarism.",
+         quiz: {
+    title: "AI  QUIZ challenge",
+    description: 'Transform learning into an engaging competition with our AI Quiz Challenge. Earn daily streaks (🔥), climb school-wide leaderboards (#42), and win airtime rewards while mastering AI concepts. Our system adapts to your progress and celebrates milestones with unlockable badges',
     benefits: [
-      "Supports PDF, DOC, and DOCX formats",
-      "Side-by-side comparison view",
-      "Detailed similarity scoring",
-      "Database of Kenyan student papers"
+         "Daily AI knowledge challenges",
+      "Leaderboard rankings",
+      "Streak rewards system",
+      "Airtime & badge prizes"
     ],
-    codeExample: `async function checkPlagiarism(content) {\n  const embedding = await ai.generateEmbedding(content);\n  const matches = await database.findSimilar(embedding);\n  return matches.filter(m => m.similarity > 0.8);\n}`
+    codeExample: `{<div class="code-example bg-gray-50 p-4 rounded-lg border border-gray-200 mt-4">
+  <div class="flex items-center text-sm font-mono mb-2 text-gray-500">
+    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2">QuizService.js</span>
+    <span>AI quiz scoring logic</span>
+  </div>
+  <pre class="text-sm text-gray-800 overflow-x-auto">
+    <code class="language-javascript">
+// Calculate daily quiz score and update streaks
+async function submitQuizResponse(userId, answers) {
+  const questions = await getDailyQuestions();
+  let score = 0;
+  
+  // Score calculation with streak bonus
+  answers.forEach((answer, index) => {
+    if (answer === questions[index].correctAnswer) {
+      score += 100 * (1 + (currentStreak(userId) * 0.1)); // 10% bonus per streak day
+    }
+  });
+
+  // Update user progress
+  await db.users.updateOne(
+    { _id: userId },
+    { 
+      $inc: { score, streak: 1 }, // Increment streak
+      $set: { lastAttempt: new Date() },
+      $push: { badges: checkNewBadges(score) }
+    }
+  );
+
+  return { score, earnedBadges };
+}
+    </code>
+  </pre>
+  <div class="text-xs text-gray-500 mt-2">
+    Example showing streak bonuses and badge awarding logic
+  </div>
+</div>}`
   },
         resources: {
           title: "Unified Resource Library",

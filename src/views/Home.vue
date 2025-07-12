@@ -266,25 +266,43 @@
             </div>
           </router-link>
 
-          <!-- Feature 4: plagiarsim-checker -->
-      <router-link to="/plagiarism-checker">
+          <!-- Feature 4: quizAi -->
+<router-link to="/quizai">
   <div
-    @mouseenter="hoveredFeature = 4"
-    @mouseleave="hoveredFeature = null"
-    class="bg-blue-50 rounded-xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer"
-    :class="{'ring-2 ring-blue-500': hoveredFeature === 4}"
+    class="feature-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+    @mouseenter="activeFeature = 'quiz'"
   >
-    <div class="flex items-center mb-4">
-      <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
-        <span class="text-2xl">🔍</span>
+    <div class="h-48 bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center relative">
+      <!-- Animated trophy and progress elements -->
+      <div class="absolute top-4 right-4 trophy-icon bg-yellow-100 text-yellow-600 p-2 rounded-full shadow-sm">
+        🏆
       </div>
-      <h4 class="text-xl font-bold">AI Plagiarism Checker</h4>
+      <div class="quiz-preview w-40 h-28 bg-white rounded-lg shadow-md transform -rotate-2 transition-transform duration-300 hover:rotate-0">
+        <div class="absolute inset-0 bg-white flex flex-col items-center justify-center p-4">
+          <div class="streak-display flex items-center mb-2">
+            <span class="fire-icon mr-1">🔥</span>
+            <span class="text-sm font-bold">7 day streak</span>
+          </div>
+          <span class="text-center text-sm">Daily AI Quiz</span>
+        </div>
+      </div>
+      <div class="absolute bottom-4 left-4 rank-badge bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded-full">
+        Rank #42
+      </div>
     </div>
-    <p class="text-gray-600 mb-4">Detect copied content with advanced AI that compares against thousands of documents.</p>
-    <div class="flex flex-wrap gap-2">
-      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">PDF/DOC Support</span>
-      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Side-by-Side Comparison</span>
-      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Similarity Scoring</span>
+    <div class="p-6">
+      <h3 class="text-xl font-bold mb-2 flex items-center">
+        <span class="icon-box bg-blue-100 text-blue-600 p-2 rounded-lg mr-3">🧠</span>
+        AI Quiz Challenge
+      </h3>
+      <p class="text-gray-600 mb-4">
+        Daily gamified quizzes with streaks, leaderboards, and rewards to test your AI knowledge.
+      </p>
+      <div class="flex flex-wrap gap-2">
+        <span class="feature-tag">Daily Challenges</span>
+        <span class="feature-tag">Leaderboards</span>
+        <span class="feature-tag">Airtime Rewards</span>
+      </div>
     </div>
   </div>
 </router-link>
