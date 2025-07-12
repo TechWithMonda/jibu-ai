@@ -276,14 +276,14 @@ export default {
           ],
           codeExample: `function startTimer(duration) {\n  timer.value = duration;\n  interval = setInterval(() => {\n    if (timer.value <= 0) {\n      playCompletionSound();\n      startBreakTimer();\n    }\n    timer.value--;\n  }, 1000);\n}`
         },
-        progress: {
-          title: "Advanced Progress Analytics",
-          description: "Data-driven insights into your study habits with beautiful visualizations to identify strengths and improvement areas.",
+        speech: {
+          title: "AI driven text to speech learning tool",
+          description: "Get your different characters of ai text to speech that translates to any languages helping further understanding",
           benefits: [
-            "Hour tracking by subject",
-            "Performance trend analysis",
-            "Comparative benchmarks",
-            "Custom report generation"
+            "Fast Responsed",
+            "Multiple languages",
+            "Accurate proven Data",
+            "Custom chats"
           ],
           codeExample: `const chart = new Chart(ctx, {\n  type: 'radar',\n  data: {\n    labels: subjects,\n    datasets: [{\n      label: 'Your Performance',\n      data: scores,\n      backgroundColor: 'rgba(54, 162, 235, 0.2)'\n    }]\n  }\n});`
         },
