@@ -197,6 +197,7 @@
 <script>
 import { documentService, reportService } from '../services/api'
 
+
 export default {
   name: 'Dashboard',
   data() {
@@ -268,20 +269,35 @@ export default {
       }
     },
     
-    async checkPlagiarism(documentId) {
-      this.$set(this.checkingPlagiarism, documentId, true)
-      try {
-        const report = await documentService.checkPlagiarism(documentId)
-        this.currentReport = report
-        this.showReport = true
-      } catch (error) {
-        console.error('Error checking plagiarism:', error)
-        alert('Error checking plagiarism')
-      } finally {
-        this.$set(this.checkingPlagiarism, documentId, false)
-      }
-    },
-    
+ 
+async checkPlagiarism(documentId) {
+  this.checkingPlagiarism = {
+    ...this.checkingPlagiarism,
+    [documentId]: true
+  }
+
+  try {
+    const result = await documentService.checkPlagiarism(documentId)
+
+    const reports = await reportService.getReports(documentId)
+    if (reports.length > 0) {
+      this.currentReport = reports[0]
+      this.showReport = true
+    } else {
+      alert('No plagiarism report generated yet')
+    }
+  } catch (err) {
+    console.error('Error checking plagiarism:', err)
+    alert('Plagiarism check failed')
+  } finally {
+    this.checkingPlagiarism = {
+      ...this.checkingPlagiarism,
+      [documentId]: false
+    }
+  }
+},
+
+
     async viewReport(documentId) {
       try {
         const reports = await reportService.getReports(documentId)
