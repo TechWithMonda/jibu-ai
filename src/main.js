@@ -4,6 +4,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import NavBar from './components/NavBar.vue'
 import Footer from './components/Footer.vue'
+
 import './plugins/chart'
 import { useUserStore } from '@/stores/user' // chart.js setup (keep if needed)
 
