@@ -4,7 +4,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import NavBar from './components/NavBar.vue'
 import Footer from './components/Footer.vue'
-
+import setupAnalytics from './analytics'
 import './plugins/chart'
 import { useUserStore } from '@/stores/user' // chart.js setup (keep if needed)
 
@@ -35,7 +35,7 @@ app.use(router)
 // ✅ Register global components
 app.component('NavBar', NavBar)
 app.component('Footer', Footer)
-
+setupAnalytics()
 const userStore = useUserStore()
 userStore.initFromStorage()
 
