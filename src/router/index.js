@@ -44,6 +44,26 @@ const routes = [
     name: 'aispeech',
     component: () => import('../views/AiSpeech.vue')
   },
+   {
+    path: '/BasicPackage',
+    name: 'BasicPackage',
+    component: () => import('../views/BasicPayment.vue')
+  },
+   {
+    path: '/PremiumPackage',
+    name: 'premium',
+    component: () => import('../views/PremiumPayment.vue')
+  },
+   {
+    path: '/school',
+    name: 'school',
+    component: () => import('../views/SchoolPayment.vue')
+  },
+  {  
+  path: '/users',
+    name: 'users',
+    component: () => import('../views/userAnalyticsDashboard.vue')
+  },
   {
     path: '/quizai',
     name: 'quizai',

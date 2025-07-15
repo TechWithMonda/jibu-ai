@@ -40,7 +40,9 @@
         </div>
         
         <div>
-          <h5 class="text-lg font-semibold mb-4">Company</h5>
+          
+            <h5 class="text-lg font-semibold mb-4">Users</h5>
+      
           <ul class="space-y-2">
             <li><a href="#" class="text-blue-200 hover:text-white transition-colors">About</a></li>
             <li><a href="#" class="text-blue-200 hover:text-white transition-colors">Blog</a></li>

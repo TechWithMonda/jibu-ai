@@ -1,7 +1,6 @@
 <template>
   <div>
     <NavBar />
-    <div class="container mx-auto px-4 py-8">
       <div class="bg-white rounded-xl shadow-sm p-6">
         <!-- Dashboard Header -->
         <div class="flex justify-between items-center mb-8">
@@ -114,7 +113,7 @@
           </div>
         </div>
       </div>
-    </div>
+    
     <Footer />
   </div>
 </template>

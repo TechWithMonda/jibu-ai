@@ -580,12 +580,12 @@
               <h4 class="text-xl font-bold mb-2">Basic</h4>
               <p class="text-gray-600 mb-6">For casual learners</p>
               <div class="mb-6">
-                <span class="text-4xl font-bold">KSh 500</span>
+                <span class="text-4xl font-bold">$2.00</span>
                 <span class="text-gray-500">/month</span>
               </div>
-              <button class="w-full bg-blue-100 text-blue-700 font-semibold px-6 py-3 rounded-lg hover:bg-blue-200 transition-colors">
+              <router-link to="/BasicPackage"><button class="w-full bg-blue-100 text-blue-700 font-semibold px-6 py-3 rounded-lg hover:bg-blue-200 transition-colors">
                 Get Started
-              </button>
+              </button></router-link>
             </div>
             <div class="border-t border-gray-200 p-8 bg-gray-50">
               <ul class="space-y-3">
@@ -619,12 +619,14 @@
               <h4 class="text-xl font-bold mb-2">Premium</h4>
               <p class="text-gray-600 mb-6">For serious students</p>
               <div class="mb-6">
-                <span class="text-4xl font-bold">KSh 1,200</span>
+                <span class="text-4xl font-bold">$4.00</span>
                 <span class="text-gray-500">/month</span>
               </div>
-              <button class="w-full bg-yellow-400 text-blue-900 font-bold px-6 py-3 rounded-lg hover:bg-yellow-300 transition-colors shadow-md">
-                Get Started
-              </button>
+              <router-link to="/PremiumPackage">
+                <button class="w-full bg-yellow-400 text-blue-900 font-bold px-6 py-3 rounded-lg hover:bg-yellow-300 transition-colors shadow-md">
+                  Get Started
+                </button>
+              </router-link>
             </div>
             <div class="border-t border-gray-200 p-8 bg-gray-50">
               <ul class="space-y-3">
@@ -656,41 +658,42 @@
             </div>
           </div>
           
-          <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-            <div class="p-8 text-center">
-              <h4 class="text-xl font-bold mb-2">School Package</h4>
-              <p class="text-gray-600 mb-6">For institutions</p>
-              <div class="mb-6">
-                <span class="text-4xl font-bold">KSh 8,000</span>
-                <span class="text-gray-500">/month</span>
+          
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+              <div class="p-8 text-center">
+                <h4 class="text-xl font-bold mb-2">School Package</h4>
+                <p class="text-gray-600 mb-6">For institutions</p>
+                <div class="mb-6">
+                  <span class="text-4xl font-bold">$8.00</span>
+                  <span class="text-gray-500">/month</span>
+                </div>
+                <router-link to="/school"><button class="w-full bg-blue-100 text-blue-700 font-semibold px-6 py-3 rounded-lg hover:bg-blue-200 transition-colors">
+                  Contact Sales
+                </button></router-link>
               </div>
-              <button class="w-full bg-blue-100 text-blue-700 font-semibold px-6 py-3 rounded-lg hover:bg-blue-200 transition-colors">
-                Contact Sales
-              </button>
+              <div class="border-t border-gray-200 p-8 bg-gray-50">
+                <ul class="space-y-3">
+                  <li class="flex items-center">
+                    <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span>Unlimited students</span>
+                  </li>
+                  <li class="flex items-center">
+                    <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span>Custom branding</span>
+                  </li>
+                  <li class="flex items-center">
+                    <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span>Dedicated account manager</span>
+                  </li>
+                </ul>
+              </div>
             </div>
-            <div class="border-t border-gray-200 p-8 bg-gray-50">
-              <ul class="space-y-3">
-                <li class="flex items-center">
-                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <span>Unlimited students</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <span>Custom branding</span>
-                </li>
-                <li class="flex items-center">
-                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <span>Dedicated account manager</span>
-                </li>
-              </ul>
-            </div>
-          </div>
         </div>
         
         <div class="mt-12 text-center">
