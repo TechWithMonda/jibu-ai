@@ -55,8 +55,12 @@
           <h5 class="text-lg font-semibold mb-4">Support</h5>
           <ul class="space-y-2">
             <li><a href="#" class="text-blue-200 hover:text-white transition-colors">Help Center</a></li>
-            <li><a href="#" class="text-blue-200 hover:text-white transition-colors">Terms of Service</a></li>
-            <li><a href="#" class="text-blue-200 hover:text-white transition-colors">Privacy Policy</a></li>
+            <router-link to="/Termsofservice">
+              <li><a href="#" class="text-blue-200 hover:text-white transition-colors">Terms of Service</a></li>
+            </router-link>
+            <router-link to="/Privacypolicy">
+              <li><a href="#" class="text-blue-200 hover:text-white transition-colors">Privacy Policy</a></li>
+            </router-link>
             <li><a href="#" class="text-blue-200 hover:text-white transition-colors">Cookies</a></li>
           </ul>
         </div>

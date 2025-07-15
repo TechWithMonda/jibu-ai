@@ -95,4 +95,14 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+    <url>
+    <loc>https://jibuai.app/Termsofservice</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+    <url>
+    <loc>https://jibuai.app/Privacypolicy</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
