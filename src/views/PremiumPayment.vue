@@ -402,54 +402,68 @@ export default {
       expiryDate.value = formatted
     }
 
-    const processPaystackPayment = () => {
-      const paystackOptions = {
-        key: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || 'pk_test_your_public_key',
-        email: receiptEmail.value,
-        amount: plan.price * 100, // Paystack uses amount in kobo (multiply by 100)
-        currency: 'KES', // or 'USD', 'GHS' depending on your country
-        ref: 'TX-' + Math.random().toString(36).substr(2, 8).toUpperCase(),
-        metadata: {
-          custom_fields: [
-            {
-              display_name: "Plan Name",
-              variable_name: "plan_name",
-              value: plan.name
-            }
-          ]
-        },
-      callback: async (response) => {
-  const reference = response.reference
-
-  // Send to backend
-  const res = await fetch('https://web-production-d639.up.railway.app/api/verify-payment/', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      reference,
-      email: receiptEmail.value
-    })
-  })
-
-  const result = await res.json()
-  if (result.message === 'Payment verified!') {
-    paymentSuccess.value = true
-    transactionId.value = reference
-    step.value = 3
-    startCountdown()
-  } else {
-    alert('Verification failed')
-  }
-},
-        onClose: () => {
-          // User closed payment modal
-          isProcessing.value = false
-        }
+ const processPaystackPayment = async () => {
+  try {
+    isProcessing.value = true;
+    
+    const paystackOptions = {
+      key: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || 'pk_test_your_public_key',
+      email: receiptEmail.value,
+      amount: plan.price * 100, // Paystack uses amount in kobo (multiply by 100)
+      currency: 'KES', // or 'USD', 'GHS' depending on your country
+      ref: 'TX-' + Math.random().toString(36).substr(2, 8).toUpperCase(),
+      metadata: {
+        custom_fields: [
+          {
+            display_name: "Plan Name",
+            variable_name: "plan_name",
+            value: plan.name
+          }
+        ]
+      },
+      callback: function(response) {
+        handlePaystackCallback(response.reference);
+      },
+      onClose: function() {
+        isProcessing.value = false;
       }
+    };
 
-      isProcessing.value = true
-      payWithPaystack(paystackOptions)
+    await payWithPaystack(paystackOptions);
+  } catch (error) {
+    console.error('Paystack error:', error);
+    isProcessing.value = false;
+  }
+};
+
+const handlePaystackCallback = async (reference) => {
+  try {
+    // Send to backend
+    const res = await fetch('https://web-production-d639.up.railway.app/api/verify-payment/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        reference,
+        email: receiptEmail.value
+      })
+    });
+
+    const result = await res.json();
+    if (result.message === 'Payment verified!') {
+      paymentSuccess.value = true;
+      transactionId.value = reference;
+      step.value = 3;
+      startCountdown();
+    } else {
+      alert('Verification failed');
     }
+  } catch (error) {
+    console.error('Verification error:', error);
+    alert('Error verifying payment');
+  } finally {
+    isProcessing.value = false;
+  }
+};
 
     const startCountdown = () => {
       const timer = setInterval(() => {
