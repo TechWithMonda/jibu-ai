@@ -12,7 +12,7 @@
           </div>
           <h1 class="text-3xl font-bold">{{ plan.name }}</h1>
           <p class="text-2xl mt-2 opacity-90">
-            <span class="font-light">$</span> 
+            <span class="font-light">$ </span> 
             <span class="font-bold">{{ plan.price }}</span>
             <span class="text-lg font-light">/month</span>
           </p>
@@ -100,34 +100,28 @@
             <i class="fas fa-check-circle text-blue-500 text-xl"></i>
           </div>
 
-          <!-- M-Pesa Form -->
-          <div v-if="selectedMethod.id === 'mpesa'" class="space-y-4">
+ 
+
+          <!-- Paystack Form -->
+          <div v-if="selectedMethod.id === 'paystack'" class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">M-Pesa Phone Number</label>
-              <div class="relative">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <span class="text-gray-500 font-medium">+254</span>
-                </div>
-                <input type="tel" v-model="mpesaNumber"
-                       class="pl-16 w-full p-3.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                       placeholder="712 345 678"
-                       @input="formatMpesaNumber">
-                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                  <i class="fas fa-mobile-alt text-gray-400"></i>
-                </div>
-              </div>
-              <p class="mt-1 text-xs text-gray-500">Enter your Safaricom mobile number</p>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+              <input type="email" v-model="receiptEmail" 
+                     class="w-full p-3.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                     placeholder="your@email.com" required>
             </div>
+            
             <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg flex">
               <div class="mr-3 text-blue-500">
                 <i class="fas fa-info-circle text-lg"></i>
               </div>
               <div>
-                <p class="text-blue-800 text-sm font-medium">Payment Instructions</p>
+                <p class="text-blue-800 text-sm font-medium">Paystack Payment Instructions</p>
                 <ul class="text-blue-700 text-xs mt-1 list-disc list-inside">
-                  <li>You'll receive an M-Pesa push notification</li>
-                  <li>Enter your M-Pesa PIN when prompted</li>
-                  <li>Payment will be processed instantly</li>
+                  <li>Click "Complete Payment" to proceed</li>
+                  <li>You'll be redirected to Paystack's secure payment page</li>
+                  <li>Choose your preferred payment method (card, bank transfer, USSD)</li>
+                  <li>Complete the payment process</li>
                 </ul>
               </div>
             </div>
@@ -178,27 +172,6 @@
             </div>
           </div>
 
-          <!-- PayPal Button -->
-          <div v-if="selectedMethod.id === 'paypal'" class="space-y-4">
-            <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
-              <div class="flex items-start">
-                <div class="mr-3 text-blue-500">
-                  <i class="fab fa-paypal text-xl"></i>
-                </div>
-                <div>
-                  <p class="text-blue-800 text-sm font-medium">PayPal Payment Instructions</p>
-                  <ul class="text-blue-700 text-xs mt-1 list-disc list-inside">
-                    <li>Click the PayPal button below</li>
-                    <li>You'll be redirected to PayPal's secure site</li>
-                    <li>Log in and confirm your payment</li>
-                    <li>You'll return automatically after payment</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div id="paypal-button-container" class="py-2"></div>
-          </div>
-
           <!-- Terms Agreement -->
           <div class="border-t border-gray-200 pt-4 mt-2">
             <div class="flex items-start">
@@ -220,7 +193,7 @@
                     'opacity-50 cursor-not-allowed': isProcessing || !termsAgreed || !isFormValid,
                     'from-green-500 to-green-600 hover:from-green-600 hover:to-green-700': paymentSuccess
                   }">
-            <span v-if="!isProcessing">Complete Payment - KSh {{ plan.price }}</span>
+            <span v-if="!isProcessing">Complete Payment - $ {{ plan.price }}</span>
             <span v-else>Processing Payment...</span>
             <i v-if="isProcessing" class="fas fa-spinner fa-spin ml-2"></i>
             <i v-else class="fas fa-lock ml-2"></i>
@@ -231,7 +204,7 @@
             <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/visa/visa-original.svg" class="h-6 opacity-70" alt="Visa">
             <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mastercard/mastercard-original.svg" class="h-6 opacity-70" alt="Mastercard">
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/M-PESA_LOGO-01.svg/1200px-M-PESA_LOGO-01.svg.png" class="h-6 opacity-70" alt="M-Pesa">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/paypal/paypal-original.svg" class="h-6 opacity-70" alt="PayPal">
+            <img src="https://res.cloudinary.com/paystack/image/upload/v1589989352/asset/paystack-white-logo.png" class="h-6 opacity-70" alt="Paystack">
           </div>
         </div>
 
@@ -309,10 +282,13 @@
 <script>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { usePaystack } from '@/composables/usePaystack' 
 
 export default {
   setup() {
     const router = useRouter()
+    const { payWithPaystack } = usePaystack()
+    
     const step = ref(1)
     const selectedMethod = ref(null)
     const isProcessing = ref(false)
@@ -328,33 +304,21 @@ export default {
     const receiptEmail = ref('user@example.com')
 
     const plan = {
-      name: "SchoolPackage",
-      price: 8.00,
+      name: "Premium Plan",
+      price: 4.00,
       features: ["Unlimited papers", "Priority support", "Advanced analytics", "PDF exports"]
     }
 
     const paymentMethods = [
+   
       {
-        id: 'mpesa',
-        name: 'M-Pesa',
-        icon: 'fas fa-mobile-alt',
-        description: 'Instant mobile money payment',
-        bgColor: 'bg-green-600'
+        id: 'paystack',
+        name: 'Paystack',
+        icon: 'fas fa-credit-card',
+        description: 'Card, Bank Transfer, M-pesa',
+        bgColor: 'bg-purple-600'
       },
-      {
-        id: 'card',
-        name: 'Credit/Debit Card',
-        icon: 'far fa-credit-card',
-        description: 'Visa, Mastercard, American Express',
-        bgColor: 'bg-blue-600'
-      },
-      {
-        id: 'paypal',
-        name: 'PayPal',
-        icon: 'fab fa-paypal',
-        description: 'Pay with PayPal account or card',
-        bgColor: 'bg-blue-800'
-      }
+    
     ]
 
     const nextBillingDate = computed(() => {
@@ -379,6 +343,11 @@ export default {
         return cleanCardNumber.length >= 15 && 
                expiryDate.value.length === 5 && 
                cvv.value.length >= 3
+      }
+      
+      if (selectedMethod.value.id === 'paystack') {
+        // Basic email validation for Paystack
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(receiptEmail.value)
       }
       
       return true
@@ -433,25 +402,89 @@ export default {
       expiryDate.value = formatted
     }
 
-    const processPayment = () => {
+    const processPaystackPayment = () => {
+      const paystackOptions = {
+        key: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || 'pk_test_your_public_key',
+        email: receiptEmail.value,
+        amount: plan.price * 100, // Paystack uses amount in kobo (multiply by 100)
+        currency: 'KES', // or 'USD', 'GHS' depending on your country
+        ref: 'TX-' + Math.random().toString(36).substr(2, 8).toUpperCase(),
+        metadata: {
+          custom_fields: [
+            {
+              display_name: "Plan Name",
+              variable_name: "plan_name",
+              value: plan.name
+            }
+          ]
+        },
+      callback: async (response) => {
+  const reference = response.reference
+
+  // Send to backend
+  const res = await fetch('https://web-production-d639.up.railway.app/api/verify-payment/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      reference,
+      email: receiptEmail.value
+    })
+  })
+
+  const result = await res.json()
+  if (result.message === 'Payment verified!') {
+    paymentSuccess.value = true
+    transactionId.value = reference
+    step.value = 3
+    startCountdown()
+  } else {
+    alert('Verification failed')
+  }
+},
+        onClose: () => {
+          // User closed payment modal
+          isProcessing.value = false
+        }
+      }
+
       isProcessing.value = true
-      
-      // Simulate API call
-      setTimeout(() => {
-        isProcessing.value = false
-        paymentSuccess.value = true
-        transactionId.value = 'TX-' + Math.random().toString(36).substr(2, 8).toUpperCase()
-        step.value = 3
-        
-        // Start countdown
-        const timer = setInterval(() => {
-          countdown.value -= 1
-          if (countdown.value <= 0) {
-            clearInterval(timer)
-            router.push('/dashboard')
-          }
-        }, 1000)
-      }, 2500)
+      payWithPaystack(paystackOptions)
+    }
+
+    const startCountdown = () => {
+      const timer = setInterval(() => {
+        countdown.value -= 1
+        if (countdown.value <= 0) {
+          clearInterval(timer)
+          router.push('/dashboard')
+        }
+      }, 1000)
+    }
+
+    const processPayment = () => {
+      if (selectedMethod.value.id === 'paystack') {
+        processPaystackPayment()
+      } else if (selectedMethod.value.id === 'mpesa') {
+        // Handle M-Pesa payment
+        isProcessing.value = true
+        setTimeout(() => {
+          isProcessing.value = false
+          paymentSuccess.value = true
+          transactionId.value = 'TX-' + Math.random().toString(36).substr(2, 8).toUpperCase()
+          step.value = 3
+          startCountdown()
+        }, 2500)
+      } else if (selectedMethod.value.id === 'card') {
+        // Handle card payment
+        isProcessing.value = true
+        setTimeout(() => {
+          isProcessing.value = false
+          paymentSuccess.value = true
+          transactionId.value = 'TX-' + Math.random().toString(36).substr(2, 8).toUpperCase()
+          step.value = 3
+          startCountdown()
+        }, 2500)
+      }
     }
 
     return {
