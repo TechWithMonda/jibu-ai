@@ -200,12 +200,8 @@
           </button>
 
           <!-- Secure Payment Footer -->
-          <div class="flex items-center justify-center space-x-4 pt-2">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/visa/visa-original.svg" class="h-6 opacity-70" alt="Visa">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mastercard/mastercard-original.svg" class="h-6 opacity-70" alt="Mastercard">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/M-PESA_LOGO-01.svg/1200px-M-PESA_LOGO-01.svg.png" class="h-6 opacity-70" alt="M-Pesa">
-            <img src="https://res.cloudinary.com/paystack/image/upload/v1589989352/asset/paystack-white-logo.png" class="h-6 opacity-70" alt="Paystack">
-          </div>
+ 
+
         </div>
 
         <!-- Step 3: Success -->
@@ -272,6 +268,16 @@
                   class="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white rounded-xl font-bold transition shadow-md hover:shadow-lg">
             Go to Dashboard Now <i class="fas fa-arrow-right ml-2"></i>
           </button>
+          <div v-if="errorMessage" class="bg-red-50 border-l-4 border-red-400 p-4 mb-4 rounded-r-lg">
+  <div class="flex">
+    <div class="flex-shrink-0">
+      <i class="fas fa-exclamation-circle text-red-400"></i>
+    </div>
+    <div class="ml-3">
+      <p class="text-sm text-red-600">{{ errorMessage }}</p>
+    </div>
+  </div>
+</div>
         </div>
       </div>
     </div>
@@ -295,30 +301,24 @@ export default {
     const paymentSuccess = ref(false)
     const transactionId = ref('')
     const countdown = ref(5)
-    const mpesaNumber = ref('')
-    const cardNumber = ref('')
-    const expiryDate = ref('')
-    const cvv = ref('')
-    const saveCard = ref(false)
+    const receiptEmail = ref('')
     const termsAgreed = ref(false)
-    const receiptEmail = ref('user@example.com')
+    const errorMessage = ref('')
 
     const plan = {
       name: "Premium Plan",
-      price: 4.00,
+      price: 1.00,
       features: ["Unlimited papers", "Priority support", "Advanced analytics", "PDF exports"]
     }
 
     const paymentMethods = [
-   
       {
         id: 'paystack',
         name: 'Paystack',
         icon: 'fas fa-credit-card',
-        description: 'Card, Bank Transfer, M-pesa',
+        description: 'Card, Bank Transfer, USSD',
         bgColor: 'bg-purple-600'
-      },
-    
+      }
     ]
 
     const nextBillingDate = computed(() => {
@@ -334,19 +334,7 @@ export default {
     const isFormValid = computed(() => {
       if (!selectedMethod.value) return false
       
-      if (selectedMethod.value.id === 'mpesa') {
-        return mpesaNumber.value.replace(/\D/g, '').length === 9
-      }
-      
-      if (selectedMethod.value.id === 'card') {
-        const cleanCardNumber = cardNumber.value.replace(/\D/g, '')
-        return cleanCardNumber.length >= 15 && 
-               expiryDate.value.length === 5 && 
-               cvv.value.length >= 3
-      }
-      
       if (selectedMethod.value.id === 'paystack') {
-        // Basic email validation for Paystack
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(receiptEmail.value)
       }
       
@@ -357,99 +345,89 @@ export default {
       selectedMethod.value = method
     }
 
-    const formatMpesaNumber = () => {
-      let numbers = mpesaNumber.value.replace(/\D/g, '')
-      numbers = numbers.substring(0, 9)
-      
-      let formatted = ''
-      for (let i = 0; i < numbers.length; i++) {
-        if (i === 3 || i === 6) {
-          formatted += ' '
-        }
-        formatted += numbers[i]
+    const processPaystackPayment = async () => {
+      try {
+        isProcessing.value = true;
+        errorMessage.value = '';
+        
+        const generateReference = () => {
+          const timestamp = Date.now();
+          const randomString = Math.random().toString(36).substr(2, 8).toUpperCase();
+          return `TX-${timestamp}-${randomString}`;
+        };
+
+        const paystackOptions = {
+          key: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
+          email: receiptEmail.value,
+          amount: Math.round(plan.price * 100), // Convert to kobo
+          currency: 'KES',
+          ref: generateReference(),
+          metadata: {
+            custom_fields: [
+              {
+                display_name: "Plan Name",
+                variable_name: "plan_name",
+                value: plan.name
+              }
+            ],
+            referer: window.location.hostname
+          },
+          callback: (response) => {
+            handlePaystackCallback(response.reference);
+          },
+          onClose: () => {
+            isProcessing.value = false;
+          }
+        };
+
+        await payWithPaystack(paystackOptions);
+      } catch (error) {
+        console.error('Paystack initialization error:', error);
+        errorMessage.value = 'Failed to initialize payment. Please try again.';
+        isProcessing.value = false;
       }
-      
-      mpesaNumber.value = formatted
-    }
+    };
 
-    const formatCardNumber = () => {
-      let numbers = cardNumber.value.replace(/\D/g, '')
-      numbers = numbers.substring(0, 16)
-      
-      let formatted = ''
-      for (let i = 0; i < numbers.length; i++) {
-        if (i > 0 && i % 4 === 0) {
-          formatted += ' '
+    const handlePaystackCallback = async (reference) => {
+      try {
+        const token = localStorage.getItem('authToken') || '';
+        
+        const response = await fetch('https://web-production-d639.up.railway.app/api/verify-payment/', {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          body: JSON.stringify({
+            reference,
+            email: receiptEmail.value,
+            amount: plan.price,
+            currency: 'KES'
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
-        formatted += numbers[i]
-      }
-      
-      cardNumber.value = formatted
-    }
 
-    const formatExpiryDate = () => {
-      let numbers = expiryDate.value.replace(/\D/g, '')
-      numbers = numbers.substring(0, 4)
-      
-      let formatted = ''
-      for (let i = 0; i < numbers.length; i++) {
-        if (i === 2) {
-          formatted += '/'
+        const result = await response.json();
+        
+        if (result.status === 'success') {
+          paymentSuccess.value = true;
+          transactionId.value = reference;
+          step.value = 3;
+          startCountdown();
+        } else {
+          throw new Error(result.message || 'Payment verification failed');
         }
-        formatted += numbers[i]
+      } catch (error) {
+        console.error('Payment verification error:', error);
+        errorMessage.value = `Payment verification failed: ${error.message}`;
+      } finally {
+        isProcessing.value = false;
       }
-      
-      expiryDate.value = formatted
-    }
-
-    const processPaystackPayment = () => {
-      const paystackOptions = {
-        key: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || 'pk_test_your_public_key',
-        email: receiptEmail.value,
-        amount: plan.price * 100, // Paystack uses amount in kobo (multiply by 100)
-        currency: 'KES', // or 'USD', 'GHS' depending on your country
-        ref: 'TX-' + Math.random().toString(36).substr(2, 8).toUpperCase(),
-        metadata: {
-          custom_fields: [
-            {
-              display_name: "Plan Name",
-              variable_name: "plan_name",
-              value: plan.name
-            }
-          ]
-        },
-      callback: async (response) => {
-  const reference = response.reference
-
-  // Send to backend
-  const res = await fetch('https://web-production-d639.up.railway.app/api/verify-payment/', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      reference,
-      email: receiptEmail.value
-    })
-  })
-
-  const result = await res.json()
-  if (result.message === 'Payment verified!') {
-    paymentSuccess.value = true
-    transactionId.value = reference
-    step.value = 3
-    startCountdown()
-  } else {
-    alert('Verification failed')
-  }
-},
-        onClose: () => {
-          // User closed payment modal
-          isProcessing.value = false
-        }
-      }
-
-      isProcessing.value = true
-      payWithPaystack(paystackOptions)
-    }
+    };
 
     const startCountdown = () => {
       const timer = setInterval(() => {
@@ -461,29 +439,14 @@ export default {
       }, 1000)
     }
 
-    const processPayment = () => {
+    const processPayment = async () => {
+      if (!termsAgreed.value) {
+        errorMessage.value = 'Please agree to the terms and conditions';
+        return;
+      }
+
       if (selectedMethod.value.id === 'paystack') {
-        processPaystackPayment()
-      } else if (selectedMethod.value.id === 'mpesa') {
-        // Handle M-Pesa payment
-        isProcessing.value = true
-        setTimeout(() => {
-          isProcessing.value = false
-          paymentSuccess.value = true
-          transactionId.value = 'TX-' + Math.random().toString(36).substr(2, 8).toUpperCase()
-          step.value = 3
-          startCountdown()
-        }, 2500)
-      } else if (selectedMethod.value.id === 'card') {
-        // Handle card payment
-        isProcessing.value = true
-        setTimeout(() => {
-          isProcessing.value = false
-          paymentSuccess.value = true
-          transactionId.value = 'TX-' + Math.random().toString(36).substr(2, 8).toUpperCase()
-          step.value = 3
-          startCountdown()
-        }, 2500)
+        await processPaystackPayment();
       }
     }
 
@@ -498,23 +461,15 @@ export default {
       paymentSuccess,
       transactionId,
       countdown,
-      mpesaNumber,
-      cardNumber,
-      expiryDate,
-      cvv,
-      saveCard,
       termsAgreed,
       isFormValid,
       nextBillingDate,
       receiptEmail,
-      formatMpesaNumber,
-      formatCardNumber,
-      formatExpiryDate
+      errorMessage
     }
   }
 }
 </script>
-
 <style scoped>
 /* Custom animations */
 .fade-enter-active,
