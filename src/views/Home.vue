@@ -580,7 +580,7 @@
               <h4 class="text-xl font-bold mb-2">Basic</h4>
               <p class="text-gray-600 mb-6">For casual learners</p>
               <div class="mb-6">
-                <span class="text-4xl font-bold">$2.00</span>
+                <span class="text-4xl font-bold">$1.00</span>
                 <span class="text-gray-500">/month</span>
               </div>
               <router-link to="/BasicPackage"><button class="w-full bg-blue-100 text-blue-700 font-semibold px-6 py-3 rounded-lg hover:bg-blue-200 transition-colors">
@@ -619,7 +619,7 @@
               <h4 class="text-xl font-bold mb-2">Premium</h4>
               <p class="text-gray-600 mb-6">For serious students</p>
               <div class="mb-6">
-                <span class="text-4xl font-bold">$4.00</span>
+                <span class="text-4xl font-bold">$2.00</span>
                 <span class="text-gray-500">/month</span>
               </div>
               <router-link to="/PremiumPackage">
@@ -664,7 +664,7 @@
                 <h4 class="text-xl font-bold mb-2">School Package</h4>
                 <p class="text-gray-600 mb-6">For institutions</p>
                 <div class="mb-6">
-                  <span class="text-4xl font-bold">$8.00</span>
+                  <span class="text-4xl font-bold">$4.00</span>
                   <span class="text-gray-500">/month</span>
                 </div>
                 <router-link to="/school"><button class="w-full bg-blue-100 text-blue-700 font-semibold px-6 py-3 rounded-lg hover:bg-blue-200 transition-colors">

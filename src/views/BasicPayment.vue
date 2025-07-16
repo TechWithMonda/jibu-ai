@@ -11,11 +11,13 @@
             <span class="bg-white/20 px-4 py-1 rounded-full text-xs font-medium">POPULAR CHOICE</span>
           </div>
           <h1 class="text-3xl font-bold">{{ plan.name }}</h1>
-          <p class="text-2xl mt-2 opacity-90">
-            <span class="font-light">$ </span> 
-            <span class="font-bold">{{ plan.price }}</span>
-            <span class="text-lg font-light">/month</span>
-          </p>
+        <div class="mt-2">
+  <p class="text-2xl text-white inline-flex items-baseline gap-1.5">
+    <span class="font-bold drop-shadow-sm">$1.00</span>
+    <span class="text-xl font-semibold text-amber-200/90">(KES{{ plan.price }})</span>
+    <span class="text-base font-medium text-sky-100">/month</span>
+  </p>
+</div>
           <div class="mt-6 flex justify-center flex-wrap gap-2">
             <span v-for="feature in plan.features" :key="feature" 
                   class="bg-white/20 px-4 py-1.5 rounded-full text-xs font-medium">
@@ -221,7 +223,7 @@
             </div>
             <div class="flex justify-between mb-3 pb-2 border-b border-gray-100">
               <span class="text-gray-600">Amount Paid:</span>
-              <span class="font-semibold">${{ plan.price }}</span>
+              <span class="font-semibold">$ 1 {{ plan.price }}</span>
             </div>
             <div class="flex justify-between mb-3 pb-2 border-b border-gray-100">
               <span class="text-gray-600">Payment Method:</span>
@@ -306,8 +308,8 @@ export default {
     const errorMessage = ref('')
 
     const plan = {
-      name: "Premium Plan",
-      price: 1.00,
+      name: "Basic Plan",
+      price: 130.00,
       features: ["Unlimited papers", "Priority support", "Advanced analytics", "PDF exports"]
     }
 
@@ -365,7 +367,7 @@ export default {
           metadata: {
             custom_fields: [
               {
-                display_name: "Plan Name",
+                display_name: "premium",
                 variable_name: "plan_name",
                 value: plan.name
               }
@@ -387,47 +389,47 @@ export default {
         isProcessing.value = false;
       }
     };
-
+const token = localStorage.getItem('accessToken') || '';
     const handlePaystackCallback = async (reference) => {
-      try {
-        const token = localStorage.getItem('authToken') || '';
-        
-        const response = await fetch('https://web-production-d639.up.railway.app/api/verify-payment/', {
-          method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-            'X-Requested-With': 'XMLHttpRequest'
-          },
-          body: JSON.stringify({
-            reference,
-            email: receiptEmail.value,
-            amount: plan.price,
-            currency: 'KES'
-          })
-        });
+  try {
+    const token = localStorage.getItem('accessToken') || '';
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+    const response = await fetch('https://web-production-d639.up.railway.app/api/verify-payment/', {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: JSON.stringify({
+        reference,
+        email: receiptEmail.value,
+        amount: plan.price,
+        currency: 'USD' // make sure your Paystack account supports this
+      })
+    });
 
-        const result = await response.json();
-        
-        if (result.status === 'success') {
-          paymentSuccess.value = true;
-          transactionId.value = reference;
-          step.value = 3;
-          startCountdown();
-        } else {
-          throw new Error(result.message || 'Payment verification failed');
-        }
-      } catch (error) {
-        console.error('Payment verification error:', error);
-        errorMessage.value = `Payment verification failed: ${error.message}`;
-      } finally {
-        isProcessing.value = false;
-      }
-    };
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+    const result = await response.json();
+
+    if (result.status === 'success') {
+      paymentSuccess.value = true;
+      transactionId.value = reference;
+      step.value = 3;
+      startCountdown();
+    } else {
+      throw new Error(result.message || 'Payment verification failed');
+    }
+  } catch (error) {
+    console.error('Payment verification error:', error);
+    errorMessage.value = `Payment verification failed: ${error.message}`;
+  } finally {
+    isProcessing.value = false;
+  }
+};
+
+
 
     const startCountdown = () => {
       const timer = setInterval(() => {
