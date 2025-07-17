@@ -4,7 +4,7 @@ android {
     namespace "com.jibuai.app"
     compileSdk rootProject.ext.compileSdkVersion
 
-    defaultConfig {
+    defaultConfig {1
         applicationId "com.jibuai.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion

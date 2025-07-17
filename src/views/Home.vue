@@ -17,12 +17,17 @@
             <span class="font-semibold">Jibu AI helps you master exams with confidence.</span>
           </p>
           <div class="flex flex-col sm:flex-row justify-center gap-4 animate-fade-in delay-200">
-            <button class="bg-yellow-400 text-blue-900 font-bold px-8 py-4 rounded-lg hover:bg-yellow-300 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl">
-              Try It Free Now
-            </button>
-            <button class="bg-transparent border-2 border-white text-white font-semibold px-8 py-4 rounded-lg hover:bg-white hover:text-blue-800 transition-all duration-300 hover:scale-105">
-              Watch Demo Video
-            </button>
+            <router-link to="/uploadpaper">
+              <button class="bg-yellow-400 text-blue-900 font-bold px-8 py-4 rounded-lg hover:bg-yellow-300 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl">
+                Try It Free Now
+              </button>
+            </router-link>
+           <button 
+  onclick="window.open('https://www.youtube.com/shorts/GjXmWzPVqig', '_blank')" 
+  class="bg-transparent border-2 border-white text-white font-semibold px-8 py-4 rounded-lg hover:bg-white hover:text-blue-800 transition-all duration-300 hover:scale-105">
+  Watch Demo Video
+</button>
+
           </div>
           <div class="mt-10 animate-bounce-slow">
             <svg class="w-10 h-10 mx-auto text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -36,22 +41,22 @@
     <!-- Trusted By Section -->
     <section class="py-12 bg-white">
       <div class="container mx-auto px-6">
-        <p class="text-center text-gray-500 mb-8">Trusted by students from top schools in Kenya</p>
+        <p class="text-center text-gray-500 mb-8">Trusted by Most Students In:</p>
         <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-70">
           <div class="w-24 h-16 bg-blue-50 rounded-lg flex items-center justify-center p-2">
-            <span class="font-bold text-blue-700">Alliance</span>
+            <span class="font-bold text-blue-700">School Practicals</span>
           </div>
           <div class="w-24 h-16 bg-blue-50 rounded-lg flex items-center justify-center p-2">
-            <span class="font-bold text-blue-700">Mangu</span>
+            <span class="font-bold text-blue-700">Revison</span>
           </div>
           <div class="w-24 h-16 bg-blue-50 rounded-lg flex items-center justify-center p-2">
-            <span class="font-bold text-blue-700">Maseno</span>
+            <span class="font-bold text-blue-700">Quiz</span>
           </div>
           <div class="w-24 h-16 bg-blue-50 rounded-lg flex items-center justify-center p-2">
-            <span class="font-bold text-blue-700">Starehe</span>
+            <span class="font-bold text-blue-700">Summaries</span>
           </div>
           <div class="w-24 h-16 bg-blue-50 rounded-lg flex items-center justify-center p-2">
-            <span class="font-bold text-blue-700">Pangani</span>
+            <span class="font-bold text-blue-700">Easy lessons management</span>
           </div>
         </div>
       </div>
@@ -550,7 +555,7 @@
               </div>
               <div>
                 <h5 class="font-bold">{{ testimonial.name }}</h5>
-                <p class="text-sm text-blue-600">{{ testimonial.school }}</p>
+               
               </div>
             </div>
             <p class="text-gray-700 italic mb-4">"{{ testimonial.quote }}"</p>
@@ -913,28 +918,28 @@ const testimonials = [
   {
     name: "Brian Omondi",
     initials: "BO",
-    school: "Alliance High School",
+   
     quote: "Jibu AI helped me improve my Math grade from a C+ to an A- in just 3 months. The step-by-step explanations made all the difference!",
     rating: 5
   },
   {
     name: "Wanjiku Mwangi",
     initials: "WM",
-    school: "Pangani Girls",
+    
     quote: "I love that I can switch to Swahili when I don't understand a concept in English. This app understands Kenyan students!",
     rating: 4
   },
   {
     name: "James Kariuki",
     initials: "JK",
-    school: "Gudka",
+    
     quote: "The voice assistance feature is a game-changer. I can study while commuting without looking at my phone.I went from scoring 50% average on my english to scoring 90%, I just love this app",
     rating: 5
   },
   {
     name: "Grace Ombogo",
     initials: "Go",
-    school: "Gudka",
+    
     quote: "As a primary teacher handling both lower and upper grades, it has helped me teach in a simpler and more understandable way, making it easier to summarize topics and identify key concepts",
     rating: 5
   }
