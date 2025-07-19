@@ -1013,16 +1013,18 @@ async analyzeDocument() {
       return new Blob([u8arr], { type: mime });
     },
 
-    formatApiResponse(text) {
-      const html = text
-        .replace(/\n\n/g, '</p><p>')
-        .replace(/\n/g, '<>')
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.*?)\*/g, '<em>$1</em>');
-      
-      return `<p>${html}</p>`;
-    },
-
+ formatApiResponse(text) {
+  return text
+    .split('\n\n') // Split by paragraphs
+    .map(paragraph => 
+      paragraph
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold
+        .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italic
+        .replace(/\n/g, '<br>') // Line breaks
+    )
+    .map(paragraph => `<p>${paragraph}</p>`) // Wrap paragraphs
+    .join(''); // Combine
+},
     startNewScan() {
       this.showResults = false;
       this.capturedImage = null;
